@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "640563458852",
+    "firebase_url": "https://dulcet-answer-252721.firebaseio.com",
+    "project_id": "dulcet-answer-252721",
+    "storage_bucket": "dulcet-answer-252721.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:640563458852:android:a417af1135dfdd83fcb9b1",
+        "android_client_info": {
+          "package_name": "com.example.geek.starea"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "640563458852-857mkpieaa90ie6a60hfvebbr06kcplo.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAKttpDye0DcT03yv6oR7MPamcgFV0wTGc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "640563458852-857mkpieaa90ie6a60hfvebbr06kcplo.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
