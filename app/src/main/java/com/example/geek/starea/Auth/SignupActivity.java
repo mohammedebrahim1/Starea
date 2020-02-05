@@ -14,6 +14,11 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+
+import java.util.HashMap;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -58,8 +63,11 @@ public class SignupActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                String email = inputEmail.getText().toString().trim();
+                final String email = inputEmail.getText().toString().trim();
                 String password = inputPassword.getText().toString().trim();
+                FirebaseUser user = auth.getCurrentUser();
+                final String uId  = user.getUid();
+
 
                 if (TextUtils.isEmpty(email)) {
                     Toast.makeText(getApplicationContext(), "Enter email address!", Toast.LENGTH_SHORT).show();
@@ -91,6 +99,18 @@ public class SignupActivity extends AppCompatActivity {
                                     Toast.makeText(SignupActivity.this, "Authentication failed." + task.getException(),
                                             Toast.LENGTH_SHORT).show();
                                 } else {
+                                    HashMap <Object , String> hashMap = new HashMap<>() ;
+                                    hashMap.put("email" , email);
+                                    hashMap.put("uId" , uId);
+                                    hashMap.put("name" , "");
+                                    hashMap.put("phone" , "");
+                                    hashMap.put("photo" , "");
+                                    FirebaseDatabase database = FirebaseDatabase.getInstance();
+                                    //path to store user data named "Users"
+                                    DatabaseReference reference = database.getReference("Users");
+                                    reference.child(uId).setValue(hashMap);
+
+
                                     startActivity(new Intent(SignupActivity.this, MainActivity.class));
                                     finish();
                                 }
