@@ -178,19 +178,22 @@ public class LoginActivity extends AppCompatActivity {
                             // Sign in success, update UI with the signed-in user's information
                            // Log.d(TAG, "signInWithCredential:success");
                             FirebaseUser user = auth.getCurrentUser();
-                            String email = user.getEmail();
-                            String uId = user.getUid();
-                            Toast.makeText(LoginActivity.this , ""+user.getEmail(), Toast.LENGTH_SHORT).show();
-                            HashMap<Object , String> hashMap = new HashMap<>() ;
-                            hashMap.put("email" , email);
-                            hashMap.put("uId" , uId);
-                            hashMap.put("name" , "");
-                            hashMap.put("phone" , "");
-                            hashMap.put("photo" , "");
-                            FirebaseDatabase database = FirebaseDatabase.getInstance();
-                            //path to store user data named "Users"
-                            DatabaseReference reference = database.getReference("Users");
-                            reference.child(uId).setValue(hashMap);
+                            if (task.getResult().getAdditionalUserInfo().isNewUser()){
+                                String email = user.getEmail();
+                                String uId = user.getUid();
+                                Toast.makeText(LoginActivity.this , ""+user.getEmail(), Toast.LENGTH_SHORT).show();
+                                HashMap<Object , String> hashMap = new HashMap<>() ;
+                                hashMap.put("email" , email);
+                                hashMap.put("uId" , uId);
+                                hashMap.put("name" , "");
+                                hashMap.put("phone" , "");
+                                hashMap.put("photo" , "");
+                                FirebaseDatabase database = FirebaseDatabase.getInstance();
+                                //path to store user data named "Users"
+                                DatabaseReference reference = database.getReference("Users");
+                                reference.child(uId).setValue(hashMap);
+                            }
+
                             Intent intent = new Intent(LoginActivity.this, ProfileActivity.class);
                             startActivity(intent);
                             finish();

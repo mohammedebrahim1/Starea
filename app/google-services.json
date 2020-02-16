@@ -15,6 +15,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "640563458852-taqdh6rtdl9djfnbhcu78bo9mnp4lha8.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.geek.starea",
+            "certificate_hash": "7e5d365e3c36e278b8eb2135c201afe34c4368c6"
+          }
+        },
+        {
           "client_id": "640563458852-857mkpieaa90ie6a60hfvebbr06kcplo.apps.googleusercontent.com",
           "client_type": 3
         }
