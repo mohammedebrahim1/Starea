@@ -65,8 +65,7 @@ public class SignupActivity extends AppCompatActivity {
 
                 final String email = inputEmail.getText().toString().trim();
                 String password = inputPassword.getText().toString().trim();
-                FirebaseUser user = auth.getCurrentUser();
-                final String uId  = user.getUid();
+
 
 
                 if (TextUtils.isEmpty(email)) {
@@ -99,6 +98,8 @@ public class SignupActivity extends AppCompatActivity {
                                     Toast.makeText(SignupActivity.this, "Authentication failed." + task.getException(),
                                             Toast.LENGTH_SHORT).show();
                                 } else {
+                                    FirebaseUser user = auth.getCurrentUser();
+                                    final String uId  = user.getUid();
                                     HashMap <Object , String> hashMap = new HashMap<>() ;
                                     hashMap.put("email" , email);
                                     hashMap.put("uId" , uId);
