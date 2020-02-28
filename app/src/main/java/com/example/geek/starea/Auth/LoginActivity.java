@@ -9,6 +9,7 @@ import android.widget.Button;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
+import com.example.geek.starea.MainActivity;
 import com.example.geek.starea.ProfileActivity;
 import com.example.geek.starea.R;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
@@ -194,7 +195,7 @@ public class LoginActivity extends AppCompatActivity {
                                 reference.child(uId).setValue(hashMap);
                             }
 
-                            Intent intent = new Intent(LoginActivity.this, ProfileActivity.class);
+                            Intent intent = new Intent(LoginActivity.this, MainActivity.class);
                             startActivity(intent);
                             finish();
                            // updateUI(user);

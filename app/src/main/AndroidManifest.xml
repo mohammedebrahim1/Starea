@@ -39,6 +39,8 @@
         </activity>
         <activity android:name=".Auth.ResetPasswordActivity"></activity>
         <activity android:name=".Auth.ProfileSettingsActivity"></activity>
+        <activity android:name=".Chat.ChatActivity" android:theme = "@style/AppThemeNo">
+        </activity>
     </application>
 
     <uses-permission android:name="android.permission.INTERNET" />
