@@ -3,14 +3,12 @@ package com.example.geek.starea.Auth;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.example.geek.starea.MainActivity;
-import com.example.geek.starea.ProfileActivity;
 import com.example.geek.starea.R;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
@@ -21,7 +19,6 @@ import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.Task;
-import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
@@ -44,9 +41,11 @@ public class LoginActivity extends AppCompatActivity {
     private Button btnSignup, btnLogin, btnReset ;
     private SignInButton btnGoogleSignin;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         //before mAuth
         // Configure Google Sign In
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
@@ -111,7 +110,7 @@ public class LoginActivity extends AppCompatActivity {
                     return;
                 }
 
-                progressBar.setVisibility(View.VISIBLE);
+//                progressBar.setVisibility(View.VISIBLE);
 
                 //authenticate user
                 auth.signInWithEmailAndPassword(email, password)
@@ -121,7 +120,7 @@ public class LoginActivity extends AppCompatActivity {
                                 // If sign in fails, display a message to the user. If sign in succeeds
                                 // the auth state listener will be notified and logic to handle the
                                 // signed in user can be handled in the listener.
-                                progressBar.setVisibility(View.GONE);
+//                                progressBar.setVisibility(View.GONE);
                                 if (!task.isSuccessful()) {
                                     // there was an error
                                     if (password.length() < 6) {
@@ -130,7 +129,7 @@ public class LoginActivity extends AppCompatActivity {
                                         Toast.makeText(LoginActivity.this, getString(R.string.auth_failed), Toast.LENGTH_LONG).show();
                                     }
                                 } else {
-                                    Intent intent = new Intent(LoginActivity.this, ProfileActivity.class);
+                                    Intent intent = new Intent(LoginActivity.this, MainActivity.class);
                                     startActivity(intent);
                                     finish();
                                 }
@@ -187,8 +186,11 @@ public class LoginActivity extends AppCompatActivity {
                                 hashMap.put("email" , email);
                                 hashMap.put("uId" , uId);
                                 hashMap.put("name" , "");
+                                hashMap.put("onlineStatus" , "online");
+                                hashMap.put("typingTo" , "noOne");
                                 hashMap.put("phone" , "");
                                 hashMap.put("photo" , "");
+                                hashMap.put("cover" , "");
                                 FirebaseDatabase database = FirebaseDatabase.getInstance();
                                 //path to store user data named "Users"
                                 DatabaseReference reference = database.getReference("Users");

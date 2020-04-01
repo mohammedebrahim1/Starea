@@ -1,38 +1,64 @@
 package com.example.geek.starea;
 
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.MenuItem;
 
+import com.example.geek.starea.Auth.LoginActivity;
 import com.example.geek.starea.Chat.ChatListFragment;
 import com.example.geek.starea.Fragments.ClassRoomsFragment;
 import com.example.geek.starea.Fragments.HomeFragment;
 import com.example.geek.starea.Fragments.ProfileFragment;
+import com.example.geek.starea.notifications.Token;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.iid.FirebaseInstanceId;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.FragmentTransaction;
 
 public class MainActivity extends AppCompatActivity {
 
 
     private BottomNavigationView bottomNavigationBar;
+    FirebaseUser user ;
+    FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
+    String mUID;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+
         setContentView(R.layout.activity_main);
         bottomNavigationBar = findViewById(R.id.bottom_nav);
         bottomNavigationBar.setOnNavigationItemSelectedListener(selectedListener);
+        Toolbar toolbar = findViewById(R.id.main_toolbar);
+        setSupportActionBar(toolbar);
+
         // default on start
         HomeFragment fragment1 = new HomeFragment();
         FragmentTransaction ft1 = getSupportFragmentManager().beginTransaction();
         ft1.replace(R.id.content , fragment1 , "");
         ft1.commit();
-
-
+        checkUserStatus();
+        // update token
+        updateToken(FirebaseInstanceId.getInstance().getToken());
+    }
+    public void updateToken (String token){
+        DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Tokens");
+        Token mToken = new Token(token);
+        reference.child(mUID).setValue(mToken);
 
     }
+
+
     private BottomNavigationView.OnNavigationItemSelectedListener selectedListener =
             new BottomNavigationView.OnNavigationItemSelectedListener() {
                 @Override
@@ -75,6 +101,39 @@ public class MainActivity extends AppCompatActivity {
                     return false;
                 }
             };
+    private void checkUserStatus(){
+        user = firebaseAuth.getCurrentUser();
+        if (user != null){
+            mUID = user.getUid();
+            // save currentuser id in shared
+            SharedPreferences sp = getSharedPreferences("SP_USER" , MODE_PRIVATE);
+            SharedPreferences.Editor editor = sp.edit();
+            editor.putString("Current_USERID" , mUID);
+            editor.apply();
 
+        }
+        else {
+            Intent intent = new Intent(MainActivity.this, LoginActivity.class);
+            startActivity(intent);
+            finish();
+        }
+    }
 
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        finish();
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        checkUserStatus();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        checkUserStatus();
+    }
 }

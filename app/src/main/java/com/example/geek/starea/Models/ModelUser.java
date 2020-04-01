@@ -1,18 +1,19 @@
 package com.example.geek.starea.Models;
 
 public class ModelUser {
-    String name , email , search , phone , image , cover ;
+    String name , email , search , phone , photo , cover  , uId;
 
     public ModelUser() {
     }
 
-    public ModelUser(String name, String email, String search, String phone, String image, String cover) {
+    public ModelUser(String name, String email, String search, String phone, String photo, String cover, String uId) {
         this.name = name;
         this.email = email;
         this.search = search;
         this.phone = phone;
-        this.image = image;
+        this.photo = photo;
         this.cover = cover;
+        this.uId = uId;
     }
 
     public String getName() {
@@ -47,12 +48,12 @@ public class ModelUser {
         this.phone = phone;
     }
 
-    public String getImage() {
-        return image;
+    public String getPhoto() {
+        return photo;
     }
 
-    public void setImage(String image) {
-        this.image = image;
+    public void setPhoto(String photo) {
+        this.photo = photo;
     }
 
     public String getCover() {
@@ -61,6 +62,14 @@ public class ModelUser {
 
     public void setCover(String cover) {
         this.cover = cover;
+    }
+
+    public String getUid() {
+        return uId;
+    }
+
+    public void setUid(String uId) {
+        this.uId = uId;
     }
 }
 

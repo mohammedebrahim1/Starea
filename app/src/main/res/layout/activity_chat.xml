@@ -62,11 +62,13 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:hint="Type a message "
-        android:inputType="textCapSentences"
+        android:textColor="@color/black"
+        android:inputType="textCapSentences|textImeMultiLine"
         android:background="@null"
         android:padding="15dp"
         android:layout_weight="1"/>
     <ImageButton
+        android:id="@+id/send_btn"
         android:layout_width="40dp"
         android:layout_height="40dp"
         android:background="@null"

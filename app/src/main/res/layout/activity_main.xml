@@ -5,8 +5,34 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_gravity="center"
+    android:background="@color/white"
     android:orientation="vertical"
     tools:context=".MainActivity">
+    <com.google.android.material.appbar.AppBarLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:theme="@style/ThemeOverlay.MaterialComponents"
+
+        >
+
+
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/main_toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:background="#42577f"
+
+            app:title="@string/app_name"
+            app:titleTextColor="#ff7315"
+            app:titleMarginStart="20dp"
+
+            app:logo="@mipmap/ic_logo_launcher"
+
+            />
+
+
+    </com.google.android.material.appbar.AppBarLayout>
+
 
     <FrameLayout
         android:id="@+id/content"
@@ -20,8 +46,9 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom"
-        android:background="?android:attr/windowBackground"
-        app:menu="@menu/bottom_nav_menu">
+        android:background="#42577f"
+        app:menu="@menu/bottom_nav_menu"
+        >
 
     </com.google.android.material.bottomnavigation.BottomNavigationView>
 

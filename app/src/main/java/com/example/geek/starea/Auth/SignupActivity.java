@@ -104,8 +104,11 @@ public class SignupActivity extends AppCompatActivity {
                                     hashMap.put("email" , email);
                                     hashMap.put("uId" , uId);
                                     hashMap.put("name" , "");
+                                    hashMap.put("onlineStatus" , "online");
+                                    hashMap.put("typingTo" , "noOne");
                                     hashMap.put("phone" , "");
                                     hashMap.put("photo" , "");
+                                    hashMap.put("cover" , "");
                                     FirebaseDatabase database = FirebaseDatabase.getInstance();
                                     //path to store user data named "Users"
                                     DatabaseReference reference = database.getReference("Users");
