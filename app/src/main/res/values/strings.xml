@@ -29,6 +29,12 @@
     <string name="lbl_forgot_password">Forgot password?</string>
     <string name="forgot_password_msg">We just need your registered Email Id to sent you password reset instructions.</string>
     <string name="person">Person</string>
+    <string name="by_jaxon_in_travel">By Jaxon in Travel</string>
+    <string name="_7_days_ago">7 days ago</string>
+    <string name="_5_min_read">5 min read</string>
+    <string name="comments">Comments</string>
+    <string name="see_all_52">See All (52)</string>
+    <string name="related_posts">Related Posts</string>
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
