@@ -101,7 +101,7 @@ public class AddPostActivity extends AppCompatActivity {
         });
         //init views
         userTv = findViewById(R.id.userNameTv);
-        userIv = findViewById(R.id.post_user_img);
+        userIv = findViewById(R.id.post_home_user_img);
         postIv = findViewById(R.id.pImageIv);
         postEt = findViewById(R.id.postContentEt);
         addPhotoBt = findViewById(R.id.postBt);

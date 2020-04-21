@@ -1,6 +1,5 @@
 package com.example.geek.starea.Adapters;
 
-import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -38,7 +37,7 @@ public class TimeLineAdapter extends RecyclerView.Adapter<BaseViewHolder> {
                 return new HeaderTextViewHolder(view);
 
             case (Constant.ITEM_POST_TEXT_VIEWTYPE):
-                view = LayoutInflater.from(mContext.getContext()).inflate(R.layout.item_post_text,parent,false);
+                view = LayoutInflater.from(mContext.getContext()).inflate(R.layout.item_post,parent,false);
                 return new PostTextViewHolder(view);
 
             case (Constant.ITEM_POST_VIDEO_VIEWTYPE):
