@@ -1,6 +1,7 @@
 package com.example.geek.starea.Adapters;
 
 import android.content.Context;
+import android.content.Intent;
 import android.text.format.DateFormat;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,6 +14,7 @@ import android.widget.Toast;
 
 import com.example.geek.starea.Models.ModelPost;
 import com.example.geek.starea.R;
+import com.example.geek.starea.ThereProfileActivity;
 import com.squareup.picasso.Picasso;
 
 import java.util.Calendar;
@@ -42,7 +44,7 @@ public class AdapterPost extends RecyclerView.Adapter<AdapterPost.PostHolder> {
     @Override
     public void onBindViewHolder(@NonNull PostHolder holder, int position) {
         // get data
-        String uid  = postList.get(position).getUid();
+        final String uid  = postList.get(position).getUid();
         String uEmail = postList.get(position).getuEmail();
         String uName  = postList.get(position).getuName();
         String uDp  = postList.get(position).getuDp();
@@ -104,6 +106,15 @@ public class AdapterPost extends RecyclerView.Adapter<AdapterPost.PostHolder> {
             @Override
             public void onClick(View view) {
                 Toast.makeText(context, "Share... " , Toast.LENGTH_LONG).show();
+            }
+        });
+        holder.uNameTv.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // on click go to clicked user profile and show his data
+                Intent intent = new Intent(context , ThereProfileActivity.class);
+                intent.putExtra("uid" , uid);
+                context.startActivity(intent);
             }
         });
 
