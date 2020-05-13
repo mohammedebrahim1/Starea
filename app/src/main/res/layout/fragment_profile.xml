@@ -1,151 +1,98 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/gray_line_color"
-    >
-    <ScrollView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+    android:fillViewport="true">
 
-        <ImageView
-            android:id="@+id/coverIv"
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fillViewport="true"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="350dp" />
-        <LinearLayout
-            android:background="@drawable/gradient"
-            android:layout_width="match_parent"
-            android:layout_height="350dp"
+            android:layout_height="match_parent"
+            android:background="@color/gray_line_color"
             android:orientation="vertical">
 
-            <com.blogspot.atifsoftwares.circularimageview.CircularImageView
-                android:layout_marginTop="35dp"
-                android:layout_gravity="center_horizontal"
-                android:layout_width="150dp"
+
+            <ImageView
+                android:id="@+id/coverIv"
+                android:layout_width="match_parent"
                 android:layout_height="150dp"
+                android:src="@drawable/gradient"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+
+            <com.blogspot.atifsoftwares.circularimageview.CircularImageView
                 android:id="@+id/profileIv"
-                android:src="@drawable/rob"></com.blogspot.atifsoftwares.circularimageview.CircularImageView>
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="100dp"
+                android:layout_marginBottom="10dp"
+                android:src="@drawable/ic_default_image"
+                app:layout_constraintBottom_toTopOf="@+id/nameTv"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
-                android:layout_marginTop="10dp"
-                android:layout_gravity="center_horizontal"
+                android:id="@+id/nameTv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Rob Percival"
-                android:id="@+id/nameTV"
-                android:textColor="@color/white"
-                android:textStyle="bold"
-                android:textSize="21sp"/>
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="1dp"
+                android:text="User Name"
+                android:textColor="@color/black"
+                android:textSize="25sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/profileIv" />
 
             <TextView
                 android:id="@+id/emailTv"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:textSize="18sp" />
-        </LinearLayout>
-        <androidx.cardview.widget.CardView
-            android:layout_width="350dp"
-            android:layout_height="100dp"
-            android:layout_centerHorizontal="true"
-            android:layout_marginTop="275dp">
-            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="horizontal"
-                android:weightSum="3">
-                <LinearLayout
-                    android:orientation="vertical"
-                    android:layout_width="0dp"
-                    android:layout_weight="1"
-                    android:layout_height="match_parent">
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="2dp"
+                android:text="user email"
+                android:textColor="@color/content_text_color"
+                android:textSize="18sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/nameTv" />
 
-                    <TextView
-                        android:layout_gravity="center_horizontal"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Courses"
-                        android:textSize="20sp"></TextView>
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="5"
-                        android:textSize="20sp"
-                        android:textStyle="bold"
-                        android:textColor="#c33764"
-                        android:paddingTop="10dp"
-                        android:layout_gravity="center_horizontal"></TextView>
-
-                </LinearLayout>
-                <LinearLayout
-                    android:orientation="vertical"
-                    android:layout_width="0dp"
-                    android:layout_weight="1"
-                    android:layout_height="match_parent">
-
-                    <TextView
-                        android:layout_gravity="center_horizontal"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Degree"
-                        android:textSize="20sp"></TextView>
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="phd in CS"
-                        android:textSize="20sp"
-                        android:textStyle="bold"
-                        android:textColor="#c33764"
-                        android:paddingTop="10dp"
-                        android:layout_gravity="center_horizontal"></TextView>
-
-                </LinearLayout>
-                <LinearLayout
-                    android:orientation="vertical"
-                    android:layout_width="0dp"
-                    android:layout_weight="1"
-                    android:layout_height="match_parent">
-
-                    <TextView
-                        android:layout_gravity="center_horizontal"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Rate"
-                        android:textSize="20sp"></TextView>
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="9.5/10"
-                        android:textSize="20sp"
-                        android:textStyle="bold"
-                        android:textColor="#c33764"
-                        android:paddingTop="10dp"
-                        android:layout_gravity="center_horizontal"></TextView>
-
-                </LinearLayout>
+            <TextView
+                android:id="@+id/aboutTv"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="16dp"
+                android:text="About"
+                android:textColor="@color/black"
+                android:textSize="20sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/emailTv" />
 
 
-            </LinearLayout>
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/profile_recycler"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/aboutTv" />
 
-        </androidx.cardview.widget.CardView>
 
-    </RelativeLayout>
-
-    </ScrollView>
-
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/fab"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentBottom="true"
-        android:layout_marginStart="10dp"
-        android:layout_marginTop="10dp"
-        android:layout_marginEnd="10dp"
-        android:layout_marginBottom="10dp"
-        android:src="@drawable/ic_edit_black" />
-</RelativeLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.core.widget.NestedScrollView>
+</androidx.constraintlayout.widget.ConstraintLayout>

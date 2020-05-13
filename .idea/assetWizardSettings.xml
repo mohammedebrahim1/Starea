@@ -36,7 +36,7 @@
                                           <PersistentState>
                                             <option name="values">
                                               <map>
-                                                <entry key="url" value="jar:file:/home/geek/Desktop/android-studio/plugins/android/lib/android.jar!/images/material_design_icons/navigation/ic_more_horiz_black_24dp.xml" />
+                                                <entry key="url" value="jar:file:/home/geek/Desktop/android-studio/plugins/android/lib/android.jar!/images/material_design_icons/social/ic_share_black_24dp.xml" />
                                               </map>
                                             </option>
                                           </PersistentState>
@@ -58,7 +58,7 @@
                                   </option>
                                   <option name="values">
                                     <map>
-                                      <entry key="outputName" value="ic_add_more_black" />
+                                      <entry key="outputName" value="ic_share_black" />
                                       <entry key="themeColor" value="ffffff" />
                                     </map>
                                   </option>

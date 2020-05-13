@@ -66,7 +66,7 @@ public class AdapterPost extends RecyclerView.Adapter<AdapterPost.PostHolder> {
             e.printStackTrace();
         }
         // in case post has no image
-        if (pImage == "no Image"){
+        if (pImage.equals("no Image")){
             holder.pImageIv.setVisibility(View.GONE);
 
         }
