@@ -35,6 +35,7 @@ import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
+import com.squareup.picasso.Picasso;
 
 import java.util.HashMap;
 import java.util.Objects;
@@ -90,6 +91,14 @@ public class AddPostActivity extends AppCompatActivity {
                     name = "" + ds.child("name").getValue();
                     email = "" + ds.child("email").getValue();
                     dp = "" + ds.child("photo").getValue();
+                }
+                // set views
+                userTv.setText(name);
+                try {
+                    Picasso.get().load(dp).placeholder(R.drawable.post_home_deafault_img).into(userIv);
+
+                } catch (Exception e) {
+                    e.printStackTrace();
                 }
 
             }
@@ -229,6 +238,7 @@ public class AddPostActivity extends AppCompatActivity {
                         results.put("pContent" ,postContent );
                         results.put("pImage" , downloadUri.toString());
                         results.put("pTime" , timestamp);
+                        results.put("pRates" , "0");
                         // path to store data in firebase
                         DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Posts");
                         reference.child(timestamp).setValue(results).addOnSuccessListener(new OnSuccessListener<Void>() {
@@ -277,6 +287,7 @@ public class AddPostActivity extends AppCompatActivity {
             results.put("pContent" ,postContent );
             results.put("pImage" , "no Image" );
             results.put("pTime" , timestamp);
+            results.put("pRates" , "0");
             // path to store data in firebase
             DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Posts");
             reference.child(timestamp).setValue(results).addOnSuccessListener(new OnSuccessListener<Void>() {
