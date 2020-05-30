@@ -18,6 +18,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.geek.starea.Models.ModelPost;
+import com.example.geek.starea.PostDetailActivity;
 import com.example.geek.starea.R;
 import com.example.geek.starea.ThereProfileActivity;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -46,7 +47,7 @@ public class AdapterPost extends RecyclerView.Adapter<AdapterPost.PostHolder> {
     String myUid;
     private DatabaseReference ratesRef;
     private  DatabaseReference postsRef ;
-    boolean mProcessLike = false;
+    boolean mProcessRate = false;
 
     public AdapterPost(Context context, List<ModelPost> postList) {
         this.context = context;
@@ -76,8 +77,9 @@ public class AdapterPost extends RecyclerView.Adapter<AdapterPost.PostHolder> {
         final String pImage  = postList.get(position).getpImage();
         String pTimestamp  = postList.get(position).getpTime();
         String pRates = postList.get(position).getpRates();
+        String pComments = postList.get(position).getpComments();
         // convert timestamp
-        Calendar calendar = Calendar.getInstance(Locale.ENGLISH);
+        final Calendar calendar = Calendar.getInstance(Locale.ENGLISH);
         calendar.setTimeInMillis(Long.parseLong(pTimestamp));
         String pTime = DateFormat.format("hh:mm aa" , calendar).toString();
         // set data
@@ -85,6 +87,7 @@ public class AdapterPost extends RecyclerView.Adapter<AdapterPost.PostHolder> {
         holder.pContentTv.setText(pContent);
         holder.pTimeTv.setText(pTime);
         holder.rateBtn.setText(" " + pRates);
+        holder.commentBtn.setText(" " + pComments);
         // set rates for each post
         setRates(holder , pId);
         // set user dp
@@ -123,23 +126,23 @@ public class AdapterPost extends RecyclerView.Adapter<AdapterPost.PostHolder> {
             public void onClick(View view) {
 //                Toast.makeText(context, " ...Rate " , Toast.LENGTH_LONG).show();
                 final int pRates = Integer.parseInt(postList.get(position).getpRates());
-                mProcessLike = true;
+                mProcessRate = true;
                 final String postId = postList.get(position).getpId();
                 ratesRef.addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                        if (mProcessLike){
+                        if (mProcessRate){
                             if (dataSnapshot.child(postId).hasChild(myUid)){
                                 // Rated before  so delete rate
                                 postsRef.child(postId).child("pRates").setValue("" + (pRates - 1));
                                 ratesRef.child(postId).child(myUid).removeValue();
-                                mProcessLike = false;
+                                mProcessRate = false;
                             }
                             else {
                                 // not rated so rate post
                                 postsRef.child(postId).child("pRates").setValue("" + (pRates + 1));
                                 ratesRef.child(postId).child(myUid).setValue("Rated");
-                                mProcessLike = false;
+                                mProcessRate = false;
                             }
                         }
 
@@ -155,7 +158,11 @@ public class AdapterPost extends RecyclerView.Adapter<AdapterPost.PostHolder> {
         holder.commentBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(context, "Comment... " , Toast.LENGTH_LONG).show();
+//                Toast.makeText(context, "Comment... " , Toast.LENGTH_LONG).show();
+                // start post detail activity
+                Intent intent = new Intent(context , PostDetailActivity.class);
+                intent.putExtra("postId" , pId);
+                context.startActivity(intent);
             }
         });
         holder.shareBtn.setOnClickListener(new View.OnClickListener() {
@@ -170,6 +177,15 @@ public class AdapterPost extends RecyclerView.Adapter<AdapterPost.PostHolder> {
                 // on click go to clicked user profile and show his data
                 Intent intent = new Intent(context , ThereProfileActivity.class);
                 intent.putExtra("uid" , uid);
+                context.startActivity(intent);
+            }
+        });
+        holder.pContentTv.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // start post detail activity
+                Intent intent = new Intent(context , PostDetailActivity.class);
+                intent.putExtra("postId" , pId);
                 context.startActivity(intent);
             }
         });

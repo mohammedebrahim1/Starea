@@ -239,6 +239,7 @@ public class AddPostActivity extends AppCompatActivity {
                         results.put("pImage" , downloadUri.toString());
                         results.put("pTime" , timestamp);
                         results.put("pRates" , "0");
+                        results.put("pComments" , "0");
                         // path to store data in firebase
                         DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Posts");
                         reference.child(timestamp).setValue(results).addOnSuccessListener(new OnSuccessListener<Void>() {
@@ -288,6 +289,7 @@ public class AddPostActivity extends AppCompatActivity {
             results.put("pImage" , "no Image" );
             results.put("pTime" , timestamp);
             results.put("pRates" , "0");
+            results.put("pComments" , "0");
             // path to store data in firebase
             DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Posts");
             reference.child(timestamp).setValue(results).addOnSuccessListener(new OnSuccessListener<Void>() {

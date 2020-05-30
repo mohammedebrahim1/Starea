@@ -2,15 +2,16 @@ package com.example.geek.starea.Models;
 
 public class ModelPost {
 
-    String pId , pContent ,pRates, pImage , pTime , uid ,uName ,  uEmail , uDp ;
+    String pId, pContent, pRates, pComments, pImage, pTime, uid, uName, uEmail, uDp;
 
     public ModelPost() {
     }
 
-    public ModelPost(String pId, String pContent, String pRates, String pImage, String pTime, String uid, String uName, String uEmail, String uDp) {
+    public ModelPost(String pId, String pContent, String pRates, String pComments, String pImage, String pTime, String uid, String uName, String uEmail, String uDp) {
         this.pId = pId;
         this.pContent = pContent;
         this.pRates = pRates;
+        this.pComments = pComments;
         this.pImage = pImage;
         this.pTime = pTime;
         this.uid = uid;
@@ -41,6 +42,14 @@ public class ModelPost {
 
     public void setpRates(String pRates) {
         this.pRates = pRates;
+    }
+
+    public String getpComments() {
+        return pComments;
+    }
+
+    public void setpComments(String pComments) {
+        this.pComments = pComments;
     }
 
     public String getpImage() {
