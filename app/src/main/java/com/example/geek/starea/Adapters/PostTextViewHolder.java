@@ -22,7 +22,7 @@ public class PostTextViewHolder extends BaseViewHolder {
 
         txtPost = itemView.findViewById(R.id.post_text_content);
         txtTime = itemView.findViewById(R.id.post_text_time);
-        imgUser = itemView.findViewById(R.id.post_text_img);
+        imgUser = itemView.findViewById(R.id.uImageIv);
     }
 
     @Override

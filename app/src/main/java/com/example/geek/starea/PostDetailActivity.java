@@ -21,9 +21,13 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.blogspot.atifsoftwares.circularimageview.CircularImageView;
+import com.example.geek.starea.Adapters.AdapterComments;
 import com.example.geek.starea.Auth.LoginActivity;
+import com.example.geek.starea.Models.ModelComment;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
@@ -38,8 +42,10 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.squareup.picasso.Picasso;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Locale;
 import java.util.Objects;
 
@@ -78,12 +84,17 @@ public class PostDetailActivity extends AppCompatActivity {
     LinearLayout addCommentLayout;
     @BindView(R.id.post_comment)
     Button commentBtn;
+    @BindView(R.id.commentsRecycler)
+    RecyclerView commentsRecycler;
     // get data about user and post
-    String hisUid , myUid, myEmail, myName, myDp,
-            postId,pImage ,  pRates, hisDp, hisName;
+    String hisUid, myUid, myEmail, myName, myDp,
+            postId, pImage, pRates, hisDp, hisName;
     ProgressDialog pd;
     boolean mProcessComment = false;
     boolean mProcessRate = false;
+    List<ModelComment> commentList;
+    AdapterComments adapterComments;
+
 
 
     @Override
@@ -103,6 +114,7 @@ public class PostDetailActivity extends AppCompatActivity {
         loadPostInfo();
         chickUserStatus();
         setRates();
+        loadComments();
 
         sendBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -128,22 +140,50 @@ public class PostDetailActivity extends AppCompatActivity {
         });
     }
 
+    private void loadComments() {
+        // layout for recycler
+        LinearLayoutManager layoutManager = new LinearLayoutManager(getApplicationContext());
+        // set layout to recycler
+        commentsRecycler.setLayoutManager(layoutManager);
+        commentList = new ArrayList<>();
+        // path of comments in db
+        DatabaseReference ref = FirebaseDatabase.getInstance().getReference("Posts").child(postId).child("Comments");
+        ref.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                commentList.clear();
+                for(DataSnapshot ds : dataSnapshot.getChildren()){
+                    ModelComment modelComment = ds.getValue(ModelComment.class);
+                    commentList.add(modelComment);
+                    // set adapter
+                    adapterComments = new AdapterComments(getApplicationContext() , commentList);
+                    commentsRecycler.setAdapter(adapterComments);
+                }
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+
+    }
+
     private void setRates() {
         final DatabaseReference ratesRef = FirebaseDatabase.getInstance().getReference().child("Rates");
         ratesRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                if (dataSnapshot.child(postId).hasChild(myUid)){
+                if (dataSnapshot.child(postId).hasChild(myUid)) {
                     // user has rate this post
                     // change drawable star to rated
-                    rateBtn.setCompoundDrawablesRelativeWithIntrinsicBounds(R.drawable.ic_full_star_black ,0 ,0,0);
+                    rateBtn.setCompoundDrawablesRelativeWithIntrinsicBounds(R.drawable.ic_full_star_black, 0, 0, 0);
 
 
-
-                }
-                else {
+                } else {
                     // user has not rated this post
-                    rateBtn.setCompoundDrawablesRelativeWithIntrinsicBounds(R.drawable.ic_star_border_black_24dp ,0 ,0,0);
+                    rateBtn.setCompoundDrawablesRelativeWithIntrinsicBounds(R.drawable.ic_star_border_black_24dp, 0, 0, 0);
 
                 }
 
@@ -165,16 +205,15 @@ public class PostDetailActivity extends AppCompatActivity {
         ratesRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                if (mProcessRate){
-                    if (dataSnapshot.child(postId).hasChild(myUid)){
+                if (mProcessRate) {
+                    if (dataSnapshot.child(postId).hasChild(myUid)) {
                         // Rated before  so delete rate
                         postsRef.child(postId).child("pRates").setValue("" + (Integer.parseInt(pRates) - 1));
                         ratesRef.child(postId).child(myUid).removeValue();
                         mProcessRate = false;
-                    }
-                    else {
+                    } else {
                         // not rated so rate post
-                        postsRef.child(postId).child("pRates").setValue("" + (Integer.parseInt(pRates)+ 1));
+                        postsRef.child(postId).child("pRates").setValue("" + (Integer.parseInt(pRates) + 1));
                         ratesRef.child(postId).child(myUid).setValue("Rated");
                         mProcessRate = false;
 
@@ -238,7 +277,6 @@ public class PostDetailActivity extends AppCompatActivity {
 
 
     }
-
 
 
     private void updateCommentCount() {
@@ -349,13 +387,14 @@ public class PostDetailActivity extends AppCompatActivity {
             }
         });
     }
+
     private void showMoreOptions() {
         // creating popup menu have options
-        PopupMenu popupMenu = new PopupMenu(this , moreBtn , Gravity.END);
+        PopupMenu popupMenu = new PopupMenu(this, moreBtn, Gravity.END);
         // show delete post to posts of current user only
-        if (hisUid.equals(myUid)){
+        if (hisUid.equals(myUid)) {
             // add items on menu
-            popupMenu.getMenu().add(Menu.NONE ,0 , 0 , "Delete");
+            popupMenu.getMenu().add(Menu.NONE, 0, 0, "Delete");
 
         }
 
@@ -364,7 +403,7 @@ public class PostDetailActivity extends AppCompatActivity {
             @Override
             public boolean onMenuItemClick(MenuItem item) {
                 int id = item.getItemId();
-                if (id == 0){
+                if (id == 0) {
                     // delete is clicked
                     beginDelete();
 
@@ -376,14 +415,14 @@ public class PostDetailActivity extends AppCompatActivity {
         // show menu
         popupMenu.show();
     }
+
     private void beginDelete() {
         // post can be with or without image
-        if (pImage.equals("no Image")){
+        if (pImage.equals("no Image")) {
             // without image
             deleteWithoutImage();
 
-        }
-        else {
+        } else {
             // with image
             deleteWithImage();
 
@@ -406,18 +445,18 @@ public class PostDetailActivity extends AppCompatActivity {
                 query.addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                        for (DataSnapshot ds : dataSnapshot.getChildren()){
+                        for (DataSnapshot ds : dataSnapshot.getChildren()) {
                             ds.getRef().removeValue(); // remove value of pid from firebase
 
                         }
-                        Toast.makeText(PostDetailActivity.this , "Deleted Successfully" , Toast.LENGTH_LONG).show();
+                        Toast.makeText(PostDetailActivity.this, "Deleted Successfully", Toast.LENGTH_LONG).show();
                         pd.dismiss();
 
                     }
 
                     @Override
                     public void onCancelled(@NonNull DatabaseError databaseError) {
-                        Toast.makeText(PostDetailActivity.this , " Error occurred" , Toast.LENGTH_LONG).show();
+                        Toast.makeText(PostDetailActivity.this, " Error occurred", Toast.LENGTH_LONG).show();
 
                     }
                 });
@@ -428,7 +467,7 @@ public class PostDetailActivity extends AppCompatActivity {
             public void onFailure(@NonNull Exception e) {
                 // error occurred
                 pd.dismiss();
-                Toast.makeText(PostDetailActivity.this , "" + e.getMessage() , Toast.LENGTH_LONG).show();
+                Toast.makeText(PostDetailActivity.this, "" + e.getMessage(), Toast.LENGTH_LONG).show();
 
             }
         });
@@ -442,18 +481,18 @@ public class PostDetailActivity extends AppCompatActivity {
         query.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                for (DataSnapshot ds : dataSnapshot.getChildren()){
+                for (DataSnapshot ds : dataSnapshot.getChildren()) {
                     ds.getRef().removeValue(); // remove value of pid from firebase
 
                 }
-                Toast.makeText(PostDetailActivity.this, "Deleted Successfully" , Toast.LENGTH_LONG).show();
+                Toast.makeText(PostDetailActivity.this, "Deleted Successfully", Toast.LENGTH_LONG).show();
                 pd.dismiss();
 
             }
 
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
-                Toast.makeText(PostDetailActivity.this , " Error occurred" , Toast.LENGTH_LONG).show();
+                Toast.makeText(PostDetailActivity.this, " Error occurred", Toast.LENGTH_LONG).show();
 
             }
         });
