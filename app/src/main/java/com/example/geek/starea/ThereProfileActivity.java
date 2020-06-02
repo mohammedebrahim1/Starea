@@ -1,12 +1,5 @@
 package com.example.geek.starea;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.SearchView;
-import androidx.core.view.MenuItemCompat;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -15,6 +8,13 @@ import android.view.MenuItem;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.SearchView;
+import androidx.core.view.MenuItemCompat;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.geek.starea.Adapters.AdapterPost;
 import com.example.geek.starea.Auth.LoginActivity;
@@ -33,13 +33,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ThereProfileActivity extends AppCompatActivity {
-    FirebaseAuth firebaseAuth ;
+    FirebaseAuth firebaseAuth;
     RecyclerView profileRecycler;
-    TextView mNameTv , mEmailTv;
-    ImageView mProfileIV , mCoverIv;
+    TextView mNameTv, mEmailTv;
+    ImageView mProfileIV, mCoverIv;
     List<ModelPost> postList;
-    AdapterPost adapterPost;
+    AdapterPost adapterPost = new AdapterPost();
     String uid;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -54,13 +55,13 @@ public class ThereProfileActivity extends AppCompatActivity {
         firebaseAuth = FirebaseAuth.getInstance();
         // get clicked user id for retrieve data
         Intent intent = getIntent();
-        uid =  intent.getStringExtra("uid");
+        uid = intent.getStringExtra("uid");
         Query query = FirebaseDatabase.getInstance().getReference("Users").orderByChild("uId").equalTo(uid);
         query.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 //check database untill get data
-                for (DataSnapshot ds : dataSnapshot.getChildren()){
+                for (DataSnapshot ds : dataSnapshot.getChildren()) {
                     //get data
                     String name = "" + ds.child("name").getValue();
                     String email = "" + ds.child("email").getValue();
@@ -71,8 +72,7 @@ public class ThereProfileActivity extends AppCompatActivity {
                     mEmailTv.setText(email);
                     try {
                         Picasso.get().load(cover).into(mCoverIv);
-                    }
-                    catch (Exception e) {
+                    } catch (Exception e) {
                         // Picasso.get().load(R.drawable.ic_add_image).into(mCoverIv);
                     }
 
@@ -80,10 +80,10 @@ public class ThereProfileActivity extends AppCompatActivity {
                         // in succses case
                         Picasso.get().load(avatar).into(mProfileIV);
 
-                    }
-                    catch (Exception e){
+                    } catch (Exception e) {
                         // if failed load default
-                        Picasso.get().load(R.drawable.ic_add_image).into(mProfileIV); }
+                        Picasso.get().load(R.drawable.ic_add_image).into(mProfileIV);
+                    }
                 }
 
             }
@@ -108,6 +108,7 @@ public class ThereProfileActivity extends AppCompatActivity {
         layoutManager.setReverseLayout(true);
         // set layout to recycler
         profileRecycler.setLayoutManager(layoutManager);
+        profileRecycler.setAdapter(adapterPost);
         // init posts list
         DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Posts");
         //Query to load posts
@@ -118,25 +119,21 @@ public class ThereProfileActivity extends AppCompatActivity {
                 postList.clear();
                 for (DataSnapshot ds : dataSnapshot.getChildren()) {
                     ModelPost modelPost = ds.getValue(ModelPost.class);
-
                     postList.add(modelPost);
-                    adapterPost = new AdapterPost(ThereProfileActivity.this , postList);
-                    // set adapter
-                    profileRecycler.setAdapter(adapterPost);
-
                 }
-
+                adapterPost.submitList(postList);
             }
 
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
-                Toast.makeText(ThereProfileActivity.this , "" + databaseError.getMessage() , Toast.LENGTH_LONG).show();
+                Toast.makeText(ThereProfileActivity.this, "" + databaseError.getMessage(), Toast.LENGTH_LONG).show();
 
             }
         });
 
 
     }
+
     private void searchHisPosts(final String searchQuery) {
         // Linear layout for recycler
         LinearLayoutManager layoutManager = new LinearLayoutManager(ThereProfileActivity.this);
@@ -155,36 +152,31 @@ public class ThereProfileActivity extends AppCompatActivity {
                 postList.clear();
                 for (DataSnapshot ds : dataSnapshot.getChildren()) {
                     ModelPost modelPost = ds.getValue(ModelPost.class);
-                    if (modelPost.getpContent().toLowerCase().contains(searchQuery.toLowerCase())){
+                    if (modelPost.getpContent().toLowerCase().contains(searchQuery.toLowerCase())) {
 
                         postList.add(modelPost);
                     }
-                    adapterPost = new AdapterPost(ThereProfileActivity.this , postList);
-                    // set adapter
-                    profileRecycler.setAdapter(adapterPost);
-
                 }
+                adapterPost.submitList(postList);
             }
 
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
-                Toast.makeText(ThereProfileActivity.this , "" + databaseError.getMessage() , Toast.LENGTH_LONG).show();
+                Toast.makeText(ThereProfileActivity.this, "" + databaseError.getMessage(), Toast.LENGTH_LONG).show();
 
             }
         });
 
 
-
     }
 
-    private void chickUserStatus(){
+    private void chickUserStatus() {
         //get current user
         FirebaseUser user = firebaseAuth.getCurrentUser();
-        if (user != null){
+        if (user != null) {
 
 
-        }
-        else {
+        } else {
             startActivity(new Intent(this, LoginActivity.class));
             finish();
         }
@@ -193,7 +185,7 @@ public class ThereProfileActivity extends AppCompatActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.action_bar , menu);
+        getMenuInflater().inflate(R.menu.action_bar, menu);
         menu.findItem(R.id.post_action).setVisible(false);
         //Search View
         MenuItem item = menu.findItem(R.id.search_action);
@@ -204,7 +196,7 @@ public class ThereProfileActivity extends AppCompatActivity {
             public boolean onQueryTextSubmit(String query) {
                 // called when user click search button from keyboard
                 // if search not empty ok
-                if (!TextUtils.isEmpty(query.trim())){
+                if (!TextUtils.isEmpty(query.trim())) {
                     searchHisPosts(query);
 
                 }
@@ -220,7 +212,7 @@ public class ThereProfileActivity extends AppCompatActivity {
             public boolean onQueryTextChange(String newText) {
                 // called when user press any letter on keyboard
                 // if search not empty ok
-                if (!TextUtils.isEmpty(newText.trim())){
+                if (!TextUtils.isEmpty(newText.trim())) {
                     searchHisPosts(newText);
 
                 }
@@ -236,7 +228,7 @@ public class ThereProfileActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        int id  = item.getItemId();
+        int id = item.getItemId();
 
         return super.onOptionsItemSelected(item);
     }

@@ -10,17 +10,6 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
-
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.appcompat.widget.SearchView;
-import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
-import androidx.core.view.MenuItemCompat;
-import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
 import android.provider.MediaStore;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
@@ -32,16 +21,23 @@ import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.NumberPicker;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.widget.SearchView;
+import androidx.core.content.ContextCompat;
+import androidx.core.view.MenuItemCompat;
+import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.geek.starea.Adapters.AdapterPost;
 import com.example.geek.starea.AddPostActivity;
 import com.example.geek.starea.Auth.LoginActivity;
 import com.example.geek.starea.Models.ModelPost;
 import com.example.geek.starea.R;
-import com.example.geek.starea.ThereProfileActivity;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
@@ -58,7 +54,6 @@ import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 import com.squareup.picasso.Picasso;
 
-import java.security.Key;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -75,8 +70,9 @@ public class ProfileFragment extends Fragment {
     public ProfileFragment() {
         // Required empty public constructor
     }
-    TextView mNameTv , mEmailTv;
-    ImageView mProfileIV , mCoverIv;
+
+    TextView mNameTv, mEmailTv;
+    ImageView mProfileIV, mCoverIv;
     FloatingActionButton fab;
     RecyclerView profileRecycler;
     FirebaseAuth firebaseAuth;
@@ -93,18 +89,16 @@ public class ProfileFragment extends Fragment {
     private static final int IMAGE_PICK_GALLERY_CODE = 300;
     private static final int IMAGE_PICK_CAMERA_CODE = 400;
     // arrays of permissions to be requested
-    String cameraPermissons [] ;
-    String storagePermissons [] ;
+    String cameraPermissons[];
+    String storagePermissons[];
     // list of posts
     List<ModelPost> postList;
-    AdapterPost adapterPost;
+    AdapterPost adapterPost = new AdapterPost();
     String uid;
     // uri of picked image
     Uri image_uri;
     //for chick profile or cover
     String profieOrCover;
-
-
 
 
     @Override
@@ -130,8 +124,8 @@ public class ProfileFragment extends Fragment {
         storageReference = getInstance().getReference();
         postList = new ArrayList<>();
         // init arrays of permissions
-        cameraPermissons = new String[] {Manifest.permission.CAMERA , Manifest.permission.WRITE_EXTERNAL_STORAGE};
-        storagePermissons = new String[] {Manifest.permission.WRITE_EXTERNAL_STORAGE};
+        cameraPermissons = new String[]{Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE};
+        storagePermissons = new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE};
 
         // init Progress Dialog
         pd = new ProgressDialog(getActivity());
@@ -140,7 +134,7 @@ public class ProfileFragment extends Fragment {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 //check database untill get data
-                for (DataSnapshot ds : dataSnapshot.getChildren()){
+                for (DataSnapshot ds : dataSnapshot.getChildren()) {
                     //get data
                     String name = "" + ds.child("name").getValue();
                     String email = "" + ds.child("email").getValue();
@@ -148,22 +142,21 @@ public class ProfileFragment extends Fragment {
                     String cover = "" + ds.child("cover").getValue();
                     //set data
                     mNameTv.setText(name);
-                   mEmailTv.setText(email);
-                   try {
-                       Picasso.get().load(cover).into(mCoverIv);
-                   }
-                   catch (Exception e) {
-                 //  Picasso.get().load(R.drawable.ic_add_image).into(mCoverIv);
-                   }
+                    mEmailTv.setText(email);
+                    try {
+                        Picasso.get().load(cover).into(mCoverIv);
+                    } catch (Exception e) {
+                        //  Picasso.get().load(R.drawable.ic_add_image).into(mCoverIv);
+                    }
 
                     try {
                         // in succses case
                         Picasso.get().load(avatar).into(mProfileIV);
 
-                    }
-                    catch (Exception e){
+                    } catch (Exception e) {
                         // if failed load default
-                        Picasso.get().load(R.drawable.ic_add_image).into(mProfileIV); }
+                        Picasso.get().load(R.drawable.ic_add_image).into(mProfileIV);
+                    }
                 }
 
             }
@@ -194,6 +187,7 @@ public class ProfileFragment extends Fragment {
         layoutManager.setReverseLayout(true);
         // set layout to recycler
         profileRecycler.setLayoutManager(layoutManager);
+        profileRecycler.setAdapter(adapterPost);
         // init posts list
         DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Posts");
         //Query to load posts
@@ -204,25 +198,22 @@ public class ProfileFragment extends Fragment {
                 postList.clear();
                 for (DataSnapshot ds : dataSnapshot.getChildren()) {
                     ModelPost modelPost = ds.getValue(ModelPost.class);
-
                     postList.add(modelPost);
-                    adapterPost = new AdapterPost(getActivity() , postList);
-                    // set adapter
-                    profileRecycler.setAdapter(adapterPost);
-
                 }
+                adapterPost.submitList(postList);
 
             }
 
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
-                Toast.makeText(getActivity() , "" + databaseError.getMessage() , Toast.LENGTH_LONG).show();
+                Toast.makeText(getActivity(), "" + databaseError.getMessage(), Toast.LENGTH_LONG).show();
 
             }
         });
 
 
     }
+
     private void searchMyPosts(final String searchQuery) {
         // Linear layout for recycler
         LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
@@ -241,48 +232,46 @@ public class ProfileFragment extends Fragment {
                 postList.clear();
                 for (DataSnapshot ds : dataSnapshot.getChildren()) {
                     ModelPost modelPost = ds.getValue(ModelPost.class);
-                    if (modelPost.getpContent().toLowerCase().contains(searchQuery.toLowerCase())){
-
+                    if (modelPost.getpContent().toLowerCase().contains(searchQuery.toLowerCase())) {
                         postList.add(modelPost);
                     }
-                    adapterPost = new AdapterPost(getActivity() , postList);
-                    // set adapter
-                    profileRecycler.setAdapter(adapterPost);
-
                 }
+                adapterPost.submitList(postList);
             }
 
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
-                Toast.makeText(getActivity() , "" + databaseError.getMessage() , Toast.LENGTH_LONG).show();
+                Toast.makeText(getActivity(), "" + databaseError.getMessage(), Toast.LENGTH_LONG).show();
 
             }
         });
 
 
-
     }
 
-    private  boolean chickStoragePermission(){
+    private boolean chickStoragePermission() {
         // chick storage permission enable or not
-        boolean result = ContextCompat.checkSelfPermission(getActivity() , Manifest.permission.WRITE_EXTERNAL_STORAGE) == (PackageManager.PERMISSION_GRANTED);
+        boolean result = ContextCompat.checkSelfPermission(getActivity(), Manifest.permission.WRITE_EXTERNAL_STORAGE) == (PackageManager.PERMISSION_GRANTED);
         return result;
     }
-    private void requestStoragePermission(){
+
+    private void requestStoragePermission() {
         //request runtime Storage permission
-        requestPermissions( storagePermissons , STORAGE_REQUEST_CODE);
+        requestPermissions(storagePermissons, STORAGE_REQUEST_CODE);
     }
-    private  boolean chickCameraPermission(){
+
+    private boolean chickCameraPermission() {
         // chick storage permission enable or not
 
-        boolean result1 = ContextCompat.checkSelfPermission(getActivity() , Manifest.permission.WRITE_EXTERNAL_STORAGE) == (PackageManager.PERMISSION_GRANTED);
-        boolean result = ContextCompat.checkSelfPermission(getActivity() , Manifest.permission.CAMERA) == (PackageManager.PERMISSION_GRANTED);
+        boolean result1 = ContextCompat.checkSelfPermission(getActivity(), Manifest.permission.WRITE_EXTERNAL_STORAGE) == (PackageManager.PERMISSION_GRANTED);
+        boolean result = ContextCompat.checkSelfPermission(getActivity(), Manifest.permission.CAMERA) == (PackageManager.PERMISSION_GRANTED);
 
         return result && result1;
     }
-    private void requestCameraPermission(){
+
+    private void requestCameraPermission() {
         //request runtime Storage permission
-        requestPermissions(cameraPermissons , CAMERA_REQUEST_CODE);
+        requestPermissions(cameraPermissons, CAMERA_REQUEST_CODE);
     }
 
 
@@ -290,8 +279,8 @@ public class ProfileFragment extends Fragment {
 /* show dialog containing options
 1- edit cover , profile photo , name , phone */
 
- // option to show in dialog
-        String options [] = {"Edit Profile Picture " , "Edit Cover Photo " , "Edit Name" , "Edit Phone "};
+        // option to show in dialog
+        String options[] = {"Edit Profile Picture ", "Edit Cover Photo ", "Edit Name", "Edit Phone "};
         //Alert dialog
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         //set Title
@@ -301,25 +290,22 @@ public class ProfileFragment extends Fragment {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 // handle dialog items click
-                if (which == 0){
+                if (which == 0) {
                     // Edit Profile Pic
                     pd.setMessage("Updating Profile Picture");
                     profieOrCover = "photo";
                     showImagePicDialog();
-                }
-                else if (which == 1){
+                } else if (which == 1) {
                     // Edit Cover
                     pd.setMessage("Updating Cover Photo");
                     profieOrCover = "cover";
                     showImagePicDialog();
-                }
-                else if (which == 2){
+                } else if (which == 2) {
                     //Edit Name
                     pd.setMessage("Updating Profile Name");
                     showNamePhoneUpdateDialog("name");
-                }
-                else if (which == 3) {
-              //      Edit Phone
+                } else if (which == 3) {
+                    //      Edit Phone
                     pd.setMessage("Updating Phone ");
                     showNamePhoneUpdateDialog("phone");
                 }
@@ -334,7 +320,7 @@ public class ProfileFragment extends Fragment {
         builder.setTitle("Update " + key);
         // set layout of dialog
         LinearLayout linearLayout = new LinearLayout(getActivity());
-        linearLayout.setPadding(10 , 10 , 10 , 10);
+        linearLayout.setPadding(10, 10, 10, 10);
         linearLayout.setOrientation(LinearLayout.VERTICAL);
         // add Edit Text
         final EditText editText = new EditText(getActivity());
@@ -347,34 +333,34 @@ public class ProfileFragment extends Fragment {
             public void onClick(DialogInterface dialog, int which) {
                 // input text from edit text
                 final String value = editText.getText().toString().trim();
-                if (!TextUtils.isEmpty(value)){
+                if (!TextUtils.isEmpty(value)) {
                     pd.show();
                     HashMap<String, Object> hashMap = new HashMap<>();
-                    hashMap.put(key , value);
+                    hashMap.put(key, value);
                     databaseReference.child(user.getUid()).updateChildren(hashMap).addOnSuccessListener(new OnSuccessListener<Void>() {
                         @Override
                         public void onSuccess(Void aVoid) {
                             pd.dismiss();
-                            Toast.makeText(getActivity() , "Updated..." , Toast.LENGTH_LONG).show();
+                            Toast.makeText(getActivity(), "Updated...", Toast.LENGTH_LONG).show();
 
                         }
                     }).addOnFailureListener(new OnFailureListener() {
                         @Override
                         public void onFailure(@NonNull Exception e) {
                             pd.dismiss();
-                            Toast.makeText(getActivity() , e.getMessage() , Toast.LENGTH_LONG).show();
+                            Toast.makeText(getActivity(), e.getMessage(), Toast.LENGTH_LONG).show();
 
                         }
                     });
                     // if user change hiss name also change it from his posts
-                    if (key.equals("name")){
+                    if (key.equals("name")) {
                         DatabaseReference ref = FirebaseDatabase.getInstance().getReference("Posts");
                         Query query = ref.orderByChild("uid").equalTo(uid);
                         query.addValueEventListener(new ValueEventListener() {
                             @Override
                             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                                for (DataSnapshot ds : dataSnapshot.getChildren()){
-                                    String child  = ds.getKey();
+                                for (DataSnapshot ds : dataSnapshot.getChildren()) {
+                                    String child = ds.getKey();
                                     dataSnapshot.getRef().child(child).child("uName").setValue(value);
                                 }
 
@@ -388,17 +374,17 @@ public class ProfileFragment extends Fragment {
                         ref.addListenerForSingleValueEvent(new ValueEventListener() {
                             @Override
                             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                                for (DataSnapshot ds : dataSnapshot.getChildren()){
+                                for (DataSnapshot ds : dataSnapshot.getChildren()) {
                                     String child = ds.getKey();
-                                    if (dataSnapshot.child(child).hasChild("Comments")){
+                                    if (dataSnapshot.child(child).hasChild("Comments")) {
                                         String child1 = dataSnapshot.child(child).getKey();
                                         Query child2 = FirebaseDatabase.getInstance().getReference("Posts").child(child1)
                                                 .child("Comments").orderByChild("uid").equalTo(uid);
                                         child2.addValueEventListener(new ValueEventListener() {
                                             @Override
                                             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                                                for (DataSnapshot ds : dataSnapshot.getChildren()){
-                                                    String child  = ds .getKey();
+                                                for (DataSnapshot ds : dataSnapshot.getChildren()) {
+                                                    String child = ds.getKey();
                                                     dataSnapshot.getRef().child(child).child("uName").setValue(value);
                                                 }
 
@@ -422,12 +408,8 @@ public class ProfileFragment extends Fragment {
                     }
 
 
-
-
-
-                }
-                else {
-                    Toast.makeText(getActivity() , "Please Enter " + key , Toast.LENGTH_LONG).show();
+                } else {
+                    Toast.makeText(getActivity(), "Please Enter " + key, Toast.LENGTH_LONG).show();
                 }
 
             }
@@ -448,7 +430,7 @@ public class ProfileFragment extends Fragment {
     private void showImagePicDialog() {
         // show dialog containing gallery and camera to pick a photo
         // option to show in dialog
-        String options [] = {" Camera " , "Gallery"};
+        String options[] = {" Camera ", "Gallery"};
         //Alert dialog
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         //set Title
@@ -458,22 +440,19 @@ public class ProfileFragment extends Fragment {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 // handle dialog items click
-                if (which == 0){
+                if (which == 0) {
                     // Camera click
-                    if (!chickCameraPermission()){
+                    if (!chickCameraPermission()) {
                         requestCameraPermission();
-                    }
-                    else {
+                    } else {
                         pickFromCamera();
                     }
 
-                }
-                else if (which == 1){
+                } else if (which == 1) {
                     // Gallery click
-                    if (!chickStoragePermission()){
+                    if (!chickStoragePermission()) {
                         requestStoragePermission();
-                    }
-                    else {
+                    } else {
                         pickFromGallery();
                     }
                 }
@@ -489,31 +468,29 @@ public class ProfileFragment extends Fragment {
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         // handle permissions cases allow or deny
-        switch (requestCode){
-            case CAMERA_REQUEST_CODE:{
-                if (grantResults.length > 0){
+        switch (requestCode) {
+            case CAMERA_REQUEST_CODE: {
+                if (grantResults.length > 0) {
                     boolean cameraAccepted = grantResults[0] == PackageManager.PERMISSION_GRANTED;
                     boolean writeStorageAccepted = grantResults[1] == PackageManager.PERMISSION_GRANTED;
-                    if (cameraAccepted && writeStorageAccepted){
+                    if (cameraAccepted && writeStorageAccepted) {
                         // permission allowed
                         pickFromCamera();
-                    }
-                    else {
-                        Toast.makeText(getActivity() , "Please enable Camera and Storage Permissions " , Toast.LENGTH_LONG).show();
+                    } else {
+                        Toast.makeText(getActivity(), "Please enable Camera and Storage Permissions ", Toast.LENGTH_LONG).show();
                     }
                 }
 
             }
             break;
-            case  STORAGE_REQUEST_CODE: {
-                if (grantResults.length > 0){
+            case STORAGE_REQUEST_CODE: {
+                if (grantResults.length > 0) {
                     boolean writeStorageAccepted = grantResults[0] == PackageManager.PERMISSION_GRANTED;
-                    if (writeStorageAccepted){
+                    if (writeStorageAccepted) {
                         // permission allowed
                         pickFromGallery();
-                    }
-                    else {
-                        Toast.makeText(getActivity() , "Please enable Storage Permissions " , Toast.LENGTH_LONG).show();
+                    } else {
+                        Toast.makeText(getActivity(), "Please enable Storage Permissions ", Toast.LENGTH_LONG).show();
                     }
                 }
 
@@ -525,14 +502,14 @@ public class ProfileFragment extends Fragment {
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         // called after picking image from camera or gallery
-        if (resultCode == RESULT_OK){
-            if (requestCode == IMAGE_PICK_GALLERY_CODE){
+        if (resultCode == RESULT_OK) {
+            if (requestCode == IMAGE_PICK_GALLERY_CODE) {
                 //image is picked from gallery get uri
                 image_uri = data.getData();
                 uploadProfileCoverPhoto(image_uri);
 
             }
-            if (requestCode == IMAGE_PICK_CAMERA_CODE){
+            if (requestCode == IMAGE_PICK_CAMERA_CODE) {
                 // image is picked from cam get uri
                 uploadProfileCoverPhoto(image_uri);
             }
@@ -548,20 +525,20 @@ public class ProfileFragment extends Fragment {
         storageReference1.putFile(uri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
             @Override
             public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                Task<Uri> uriTask  = taskSnapshot.getStorage().getDownloadUrl();
-                while (!uriTask.isSuccessful());
+                Task<Uri> uriTask = taskSnapshot.getStorage().getDownloadUrl();
+                while (!uriTask.isSuccessful()) ;
                 final Uri downloadUri = uriTask.getResult();
                 //check image is uploaded or not
-                if (uriTask.isSuccessful()){
+                if (uriTask.isSuccessful()) {
                     // image uploaded
                     // update url in user's database
-                    HashMap<String , Object> results = new HashMap<>();
-                    results.put(profieOrCover , downloadUri.toString());
+                    HashMap<String, Object> results = new HashMap<>();
+                    results.put(profieOrCover, downloadUri.toString());
                     databaseReference.child(user.getUid()).updateChildren(results).addOnSuccessListener(new OnSuccessListener<Void>() {
                         @Override
                         public void onSuccess(Void aVoid) {
                             pd.dismiss();
-                            Toast.makeText(getActivity() , "Image Updated..." , Toast.LENGTH_LONG).show();
+                            Toast.makeText(getActivity(), "Image Updated...", Toast.LENGTH_LONG).show();
 
                         }
                     }).addOnFailureListener(new OnFailureListener() {
@@ -569,20 +546,20 @@ public class ProfileFragment extends Fragment {
                         public void onFailure(@NonNull Exception e) {
                             pd.dismiss();
 
-                            Toast.makeText(getActivity() , "Error  Updating Image .." , Toast.LENGTH_LONG).show();
+                            Toast.makeText(getActivity(), "Error  Updating Image ..", Toast.LENGTH_LONG).show();
 
 
                         }
                     });
                     // if user change hiss name also change it from his posts
-                    if (profieOrCover.equals("photo")){
+                    if (profieOrCover.equals("photo")) {
                         DatabaseReference ref = FirebaseDatabase.getInstance().getReference("Posts");
                         Query query = ref.orderByChild("uid").equalTo(uid);
                         query.addValueEventListener(new ValueEventListener() {
                             @Override
                             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                                for (DataSnapshot ds : dataSnapshot.getChildren()){
-                                    String child  = ds.getKey();
+                                for (DataSnapshot ds : dataSnapshot.getChildren()) {
+                                    String child = ds.getKey();
                                     dataSnapshot.getRef().child(child).child("uDp").setValue(downloadUri.toString());
                                 }
 
@@ -597,17 +574,17 @@ public class ProfileFragment extends Fragment {
                         ref.addListenerForSingleValueEvent(new ValueEventListener() {
                             @Override
                             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                                for (DataSnapshot ds : dataSnapshot.getChildren()){
+                                for (DataSnapshot ds : dataSnapshot.getChildren()) {
                                     String child = ds.getKey();
-                                    if (dataSnapshot.child(child).hasChild("Comments")){
+                                    if (dataSnapshot.child(child).hasChild("Comments")) {
                                         String child1 = dataSnapshot.child(child).getKey();
                                         Query child2 = FirebaseDatabase.getInstance().getReference("Posts").child(child1)
                                                 .child("Comments").orderByChild("uid").equalTo(uid);
                                         child2.addValueEventListener(new ValueEventListener() {
                                             @Override
                                             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                                                for (DataSnapshot ds : dataSnapshot.getChildren()){
-                                                    String child  = ds .getKey();
+                                                for (DataSnapshot ds : dataSnapshot.getChildren()) {
+                                                    String child = ds.getKey();
                                                     dataSnapshot.getRef().child(child).child("uDp").setValue(downloadUri.toString());
                                                 }
 
@@ -631,23 +608,21 @@ public class ProfileFragment extends Fragment {
 
                     }
 
-                }
-                else {
+                } else {
                     // not uploaded
                     pd.dismiss();
-                    Toast.makeText(getActivity() , "Error occurred " , Toast.LENGTH_LONG).show();
+                    Toast.makeText(getActivity(), "Error occurred ", Toast.LENGTH_LONG).show();
                 }
 
             }
-        }) .addOnFailureListener(new OnFailureListener() {
+        }).addOnFailureListener(new OnFailureListener() {
             @Override
             public void onFailure(@NonNull Exception e) {
                 pd.dismiss();
-                Toast.makeText(getActivity() , e.getMessage() , Toast.LENGTH_LONG).show();
+                Toast.makeText(getActivity(), e.getMessage(), Toast.LENGTH_LONG).show();
 
             }
         });
-
 
 
     }
@@ -656,21 +631,21 @@ public class ProfileFragment extends Fragment {
         // pick from gallery
         Intent galleryIntent = new Intent(Intent.ACTION_PICK);
         galleryIntent.setType("image/*");
-        startActivityForResult(galleryIntent , IMAGE_PICK_GALLERY_CODE);
+        startActivityForResult(galleryIntent, IMAGE_PICK_GALLERY_CODE);
 
     }
 
     private void pickFromCamera() {
         // intent of picking image from camera
         ContentValues values = new ContentValues();
-        values.put(MediaStore.Images.Media.TITLE , "temp pic ");
-        values.put(MediaStore.Images.Media.DESCRIPTION , "temp desc");
+        values.put(MediaStore.Images.Media.TITLE, "temp pic ");
+        values.put(MediaStore.Images.Media.DESCRIPTION, "temp desc");
         // put image uri
-        image_uri = getActivity().getContentResolver().insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI , values);
+        image_uri = getActivity().getContentResolver().insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, values);
         // intint to start camera
         Intent cameraIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-        cameraIntent.putExtra(MediaStore.EXTRA_OUTPUT , image_uri);
-        startActivityForResult(cameraIntent , IMAGE_PICK_CAMERA_CODE);
+        cameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, image_uri);
+        startActivityForResult(cameraIntent, IMAGE_PICK_CAMERA_CODE);
 
 
     }
@@ -682,9 +657,9 @@ public class ProfileFragment extends Fragment {
     }
 
     @Override
-    public void onCreateOptionsMenu(Menu menu , MenuInflater inflater) {
-        inflater.inflate(R.menu.action_bar , menu);
-     //   menu.findItem(R.id.post_action).setVisible(false);
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        inflater.inflate(R.menu.action_bar, menu);
+        //   menu.findItem(R.id.post_action).setVisible(false);
         //Search View
         MenuItem item = menu.findItem(R.id.search_action);
         SearchView searchView = (SearchView) MenuItemCompat.getActionView(item);
@@ -694,7 +669,7 @@ public class ProfileFragment extends Fragment {
             public boolean onQueryTextSubmit(String query) {
                 // called when user click search button from keyboard
                 // if search not empty ok
-                if (!TextUtils.isEmpty(query.trim())){
+                if (!TextUtils.isEmpty(query.trim())) {
                     searchMyPosts(query);
 
                 }
@@ -710,7 +685,7 @@ public class ProfileFragment extends Fragment {
             public boolean onQueryTextChange(String newText) {
                 // called when user press any letter on keyboard
                 // if search not empty ok
-                if (!TextUtils.isEmpty(newText.trim())){
+                if (!TextUtils.isEmpty(newText.trim())) {
                     searchMyPosts(newText);
 
                 }
@@ -721,25 +696,25 @@ public class ProfileFragment extends Fragment {
                 return false;
             }
         });
-        super.onCreateOptionsMenu(menu , inflater);
+        super.onCreateOptionsMenu(menu, inflater);
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        int id  = item.getItemId();
-        if (id == R.id.add_post){
+        int id = item.getItemId();
+        if (id == R.id.add_post) {
             startActivity(new Intent(getActivity(), AddPostActivity.class));
         }
         return super.onOptionsItemSelected(item);
     }
-    private void chickUserStatus(){
+
+    private void chickUserStatus() {
         //get current user
 
-        if (user != null){
+        if (user != null) {
             uid = user.getUid();
 
-        }
-        else {
+        } else {
             startActivity(new Intent(getActivity(), LoginActivity.class));
             getActivity().finish();
         }

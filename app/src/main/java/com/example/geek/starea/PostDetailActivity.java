@@ -108,11 +108,12 @@ public class PostDetailActivity extends AppCompatActivity {
         // get id of post from intent
         Intent intent = getIntent();
         postId = intent.getStringExtra("postId");
+        chickUserStatus();
         // load user info
         loadUserInfo();
         // load post
         loadPostInfo();
-        chickUserStatus();
+
         setRates();
         loadComments();
 
@@ -306,7 +307,7 @@ public class PostDetailActivity extends AppCompatActivity {
     private void loadUserInfo() {
         // get user info
         Query myref = FirebaseDatabase.getInstance().getReference("Users");
-        myref.orderByChild("uid").equalTo(myUid).addListenerForSingleValueEvent(new ValueEventListener() {
+        myref.orderByChild("uId").equalTo(myUid).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 for (DataSnapshot ds : dataSnapshot.getChildren()) {

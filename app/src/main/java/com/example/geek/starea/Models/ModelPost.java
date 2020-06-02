@@ -1,8 +1,16 @@
 package com.example.geek.starea.Models;
 
+import androidx.annotation.Nullable;
+
+import com.google.firebase.database.Exclude;
+
+import java.util.List;
+
 public class ModelPost {
 
     String pId, pContent, pRates, pComments, pImage, pTime, uid, uName, uEmail, uDp;
+    @Exclude
+    boolean ratedPost;
 
     public ModelPost() {
     }
@@ -98,5 +106,27 @@ public class ModelPost {
 
     public void setuDp(String uDp) {
         this.uDp = uDp;
+    }
+
+    @Exclude
+    public boolean isRated() {
+        return ratedPost;
+    }
+
+    @Exclude
+    public void setIsRated(Boolean isRated) {
+        this.ratedPost = isRated;
+    }
+
+    @Override
+    public boolean equals(@Nullable Object obj) {
+        if (!(obj instanceof ModelPost))
+            return super.equals(obj);
+
+        ModelPost other = (ModelPost) obj;
+
+        return this.getpId() == other.getpId() && this.getpImage().equals(other.getpImage())
+                && this.getuName().equals(other.getuName()) && this.getpRates().equals(other.getpRates());
+
     }
 }
