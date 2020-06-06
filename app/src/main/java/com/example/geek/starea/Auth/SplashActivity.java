@@ -3,7 +3,6 @@ package com.example.geek.starea.Auth;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
-import android.os.PersistableBundle;
 import android.view.WindowManager;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
@@ -11,11 +10,10 @@ import android.widget.ImageView;
 
 import com.example.geek.starea.R;
 
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
-public class SplachActivity extends AppCompatActivity {
-    private static int SPLACH_SCREEN = 2500;
+public class SplashActivity extends AppCompatActivity {
+    private static final int SPLASH_SCREEN = 2500;
     Animation topAnim, bottomAnim;
     ImageView logo, logoName, solgan;
 
@@ -39,11 +37,11 @@ public class SplachActivity extends AppCompatActivity {
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
-                Intent intent = new Intent(SplachActivity.this , LoginActivity.class);
+                Intent intent = new Intent(SplashActivity.this , LoginActivity.class);
                 startActivity(intent);
                 finish();
             }
-        } , SPLACH_SCREEN);
+        } , SPLASH_SCREEN);
     }
-    }
+}
 

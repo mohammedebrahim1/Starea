@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 import com.example.geek.starea.Auth.LoginActivity;
 import com.example.geek.starea.Chat.ChatListFragment;
@@ -11,7 +12,10 @@ import com.example.geek.starea.Fragments.ClassRoomsFragment;
 import com.example.geek.starea.Fragments.HomeFragment;
 import com.example.geek.starea.Fragments.ProfileFragment;
 import com.example.geek.starea.notifications.Token;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
@@ -22,12 +26,13 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.FragmentTransaction;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 public class MainActivity extends AppCompatActivity {
 
 
     private BottomNavigationView bottomNavigationBar;
-    FirebaseUser user ;
+    FirebaseUser user;
     FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
     String mUID;
 
@@ -40,21 +45,47 @@ public class MainActivity extends AppCompatActivity {
         bottomNavigationBar.setOnNavigationItemSelectedListener(selectedListener);
         Toolbar toolbar = findViewById(R.id.main_toolbar);
         setSupportActionBar(toolbar);
-
+//        instantLogin();
         // default on start
         HomeFragment fragment1 = new HomeFragment();
         FragmentTransaction ft1 = getSupportFragmentManager().beginTransaction();
-        ft1.replace(R.id.content , fragment1 , "");
+        ft1.replace(R.id.content, fragment1, "");
         ft1.commit();
         checkUserStatus();
         // update token
         updateToken(FirebaseInstanceId.getInstance().getToken());
     }
-    public void updateToken (String token){
+
+    private void instantLogin() {
+        FirebaseAuth auth = FirebaseAuth.getInstance();
+        auth.signInWithEmailAndPassword("mk@gmail.com", "123456")
+                .addOnCompleteListener(MainActivity.this, new OnCompleteListener<AuthResult>() {
+                    @Override
+                    public void onComplete(@NonNull Task<AuthResult> task) {
+                        // If sign in fails, display a message to the user. If sign in succeeds
+                        // the auth state listener will be notified and logic to handle the
+                        // signed in user can be handled in the listener.
+//                                progressBar.setVisibility(View.GONE);
+                        if (!task.isSuccessful()) {
+                            Toast.makeText(MainActivity.this, getString(R.string.auth_failed), Toast.LENGTH_LONG).show();
+                        } else {
+                            // default on start
+                            HomeFragment fragment1 = new HomeFragment();
+                            FragmentTransaction ft1 = getSupportFragmentManager().beginTransaction();
+                            ft1.replace(R.id.content, fragment1, "");
+                            ft1.commit();
+                            checkUserStatus();
+                            // update token
+                            updateToken(FirebaseInstanceId.getInstance().getToken());
+                        }
+                    }
+                });
+    }
+
+    public void updateToken(String token) {
         DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Tokens");
         Token mToken = new Token(token);
         reference.child(mUID).setValue(mToken);
-
     }
 
 
@@ -63,36 +94,36 @@ public class MainActivity extends AppCompatActivity {
                 @Override
                 public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
                     // handle item click
-                    switch (menuItem.getItemId()){
-                        case R.id.nav_home :
+                    switch (menuItem.getItemId()) {
+                        case R.id.nav_home:
                             // handle home fragment transaction
                             HomeFragment fragment1 = new HomeFragment();
                             FragmentTransaction ft1 = getSupportFragmentManager().beginTransaction();
-                            ft1.replace(R.id.content , fragment1 , "");
+                            ft1.replace(R.id.content, fragment1, "");
                             ft1.commit();
-                        return true;
+                            return true;
 
-                        case R.id.nav_user :
+                        case R.id.nav_user:
                             // handle Profile fragment transaction
                             ProfileFragment fragment2 = new ProfileFragment();
                             FragmentTransaction ft2 = getSupportFragmentManager().beginTransaction();
-                            ft2.replace(R.id.content , fragment2 , "");
+                            ft2.replace(R.id.content, fragment2, "");
                             ft2.commit();
                             return true;
 
-                        case R.id.nav_classrooms :
+                        case R.id.nav_classrooms:
                             // handle ClassRooms fragment transaction
                             ClassRoomsFragment fragment3 = new ClassRoomsFragment();
                             FragmentTransaction ft3 = getSupportFragmentManager().beginTransaction();
-                            ft3.replace(R.id.content, fragment3 , "");
+                            ft3.replace(R.id.content, fragment3, "");
                             ft3.commit();
                             return true;
 
-                        case R.id.nav_chat :
+                        case R.id.nav_chat:
                             // handle Chat fragment transaction
                             ChatListFragment fragment4 = new ChatListFragment();
                             FragmentTransaction ft4 = getSupportFragmentManager().beginTransaction();
-                            ft4.replace(R.id.content , fragment4 , "");
+                            ft4.replace(R.id.content, fragment4, "");
                             ft4.commit();
                             return true;
 
@@ -100,18 +131,18 @@ public class MainActivity extends AppCompatActivity {
                     return false;
                 }
             };
-    private void checkUserStatus(){
+
+    private void checkUserStatus() {
         user = firebaseAuth.getCurrentUser();
-        if (user != null){
+        if (user != null) {
             mUID = user.getUid();
             // save currentuser id in shared
-            SharedPreferences sp = getSharedPreferences("SP_USER" , MODE_PRIVATE);
+            SharedPreferences sp = getSharedPreferences("SP_USER", MODE_PRIVATE);
             SharedPreferences.Editor editor = sp.edit();
-            editor.putString("Current_USERID" , mUID);
+            editor.putString("Current_USERID", mUID);
             editor.apply();
 
-        }
-        else {
+        } else {
             Intent intent = new Intent(MainActivity.this, LoginActivity.class);
             startActivity(intent);
             finish();

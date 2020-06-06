@@ -33,6 +33,7 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
 import com.example.geek.starea.Adapters.AdapterPost;
 import com.example.geek.starea.AddPostActivity;
 import com.example.geek.starea.Auth.LoginActivity;
@@ -64,7 +65,7 @@ import static com.google.firebase.storage.FirebaseStorage.getInstance;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class ProfileFragment extends Fragment {
+public class ProfileFragment extends Fragment implements AdapterPost.HomePostListeners {
 
 
     public ProfileFragment() {
@@ -143,20 +144,8 @@ public class ProfileFragment extends Fragment {
                     //set data
                     mNameTv.setText(name);
                     mEmailTv.setText(email);
-                    try {
-                        Picasso.get().load(cover).into(mCoverIv);
-                    } catch (Exception e) {
-                        //  Picasso.get().load(R.drawable.ic_add_image).into(mCoverIv);
-                    }
-
-                    try {
-                        // in succses case
-                        Picasso.get().load(avatar).into(mProfileIV);
-
-                    } catch (Exception e) {
-                        // if failed load default
-                        Picasso.get().load(R.drawable.ic_add_image).into(mProfileIV);
-                    }
+                    Glide.with(getActivity()).load(cover).placeholder(R.drawable.gradient).into(mCoverIv);
+                    Glide.with(getActivity()).load(avatar).placeholder(R.drawable.ic_add_image).into(mProfileIV);
                 }
 
             }
@@ -188,6 +177,7 @@ public class ProfileFragment extends Fragment {
         // set layout to recycler
         profileRecycler.setLayoutManager(layoutManager);
         profileRecycler.setAdapter(adapterPost);
+        adapterPost.setOnPostClickListeners(this);
         // init posts list
         DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Posts");
         //Query to load posts
@@ -720,4 +710,38 @@ public class ProfileFragment extends Fragment {
         }
     }
 
+    @Override
+    public void onUserClicked(ModelPost modelPost) {
+
+    }
+
+    @Override
+    public void onRateClicked(int position, ModelPost modelPost) {
+
+    }
+
+    @Override
+    public void onImageClicked(ModelPost modelPost) {
+
+    }
+
+    @Override
+    public void onCommentClicked(ModelPost modelPost) {
+
+    }
+
+    @Override
+    public void onShareClicked(ModelPost modelPost) {
+
+    }
+
+    @Override
+    public void onContentClicked(ModelPost modelPost) {
+
+    }
+
+    @Override
+    public void onDeleteClicked(ModelPost modelPost) {
+
+    }
 }

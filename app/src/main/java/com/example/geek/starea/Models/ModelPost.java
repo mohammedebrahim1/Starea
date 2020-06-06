@@ -11,6 +11,8 @@ public class ModelPost {
     String pId, pContent, pRates, pComments, pImage, pTime, uid, uName, uEmail, uDp;
     @Exclude
     boolean ratedPost;
+    @Exclude
+    boolean owner;
 
     public ModelPost() {
     }
@@ -116,6 +118,16 @@ public class ModelPost {
     @Exclude
     public void setIsRated(Boolean isRated) {
         this.ratedPost = isRated;
+    }
+
+    @Exclude
+    public boolean isOwner() {
+        return owner;
+    }
+
+    @Exclude
+    public void setIsOwner(Boolean isOwner) {
+        this.owner = isOwner;
     }
 
     @Override

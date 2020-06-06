@@ -15,6 +15,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:fillViewport="true"
+        android:paddingBottom="55dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -25,13 +26,12 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@color/white">
+
             <com.google.android.material.appbar.AppBarLayout
+                android:id="@+id/toolbar_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:theme="@style/ThemeOverlay.MaterialComponents"
-                android:id="@+id/toolbar_layout"
-
-                app:layout_constraintBottom_toTopOf="@+id/post_home_user_name"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent">
@@ -47,7 +47,6 @@
 
 
             </com.google.android.material.appbar.AppBarLayout>
-
 
 
             <TextView
@@ -88,7 +87,7 @@
                 android:textColor="@color/black"
                 app:layout_constraintBottom_toTopOf="@+id/post_text_content"
                 app:layout_constraintStart_toEndOf="@+id/post_home_user_img"
-                app:layout_constraintTop_toBottomOf="@id/toolbar_layout"/>
+                app:layout_constraintTop_toBottomOf="@id/toolbar_layout" />
 
             <TextView
 
@@ -202,19 +201,20 @@
         android:id="@+id/add_comment_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_margin="5dp"
         android:layout_alignParentBottom="true"
         android:background="#fff"
         android:gravity="center"
         android:orientation="horizontal"
-
         app:layout_constraintBottom_toBottomOf="@+id/nestedScrollView"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent">
+
         <com.blogspot.atifsoftwares.circularimageview.CircularImageView
+            android:id="@+id/cAvatarIv"
             android:layout_width="50dp"
             android:layout_height="50dp"
-            android:src="@drawable/ic_default_image"
-            android:id="@+id/cAvatarIv"/>
+            android:src="@drawable/ic_default_image" />
 
         <EditText
             android:id="@+id/commentEt"
@@ -223,10 +223,10 @@
             android:layout_weight="1"
             android:background="@null"
             android:hint="Type a Comment "
-            android:textColorHint="@color/content_text_color"
             android:inputType="textCapSentences|textImeMultiLine"
             android:padding="15dp"
-            android:textColor="@color/black" />
+            android:textColor="@color/black"
+            android:textColorHint="@color/content_text_color" />
 
         <ImageButton
             android:id="@+id/send_btn"

@@ -1,148 +1,152 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
-
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
+    android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:background="@color/white">
+    android:layout_margin="7dp"
+    app:cardCornerRadius="12dp">
 
-
-    <TextView
-        android:id="@+id/post_text_time"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="8dp"
-
-        android:background="@color/white"
-        android:text="21 : 45"
-        android:textColor="@color/content_text_color"
-        app:layout_constraintEnd_toStartOf="@+id/post_more"
-        app:layout_constraintHorizontal_bias="0.981"
-        app:layout_constraintStart_toEndOf="@+id/post_home_user_name"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <com.blogspot.atifsoftwares.circularimageview.CircularImageView
-        android:id="@+id/post_home_user_img"
-        android:layout_width="60dp"
-        android:layout_height="60dp"
-        android:src="@drawable/ic_default_image"
-        app:layout_constraintRight_toLeftOf="@+id/post_home_user_name"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/header_text"
-        tools:layout_editor_absoluteY="2dp" />
-
-
-    <TextView
-
-        android:id="@+id/post_home_user_name"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="12dp"
-        android:background="@drawable/txt_card_bg"
-        android:lineSpacingExtra="8sp"
-        android:text="User Name "
-        android:textColor="@color/black"
-        app:layout_constraintBottom_toTopOf="@+id/post_text_content"
-        app:layout_constraintStart_toEndOf="@+id/post_home_user_img" />
-
-    <TextView
-
-        android:id="@+id/post_text_content"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="5dp"
-        android:autoLink="all"
-        android:background="@drawable/txt_card_bg"
-        android:lineSpacingExtra="8sp"
-        android:text="@string/lorem_text"
-        android:textColor="@color/content_text_color"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/post_home_user_img" />
-
-    <ImageButton
-        android:id="@+id/post_more"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="8dp"
-        android:background="@null"
-        android:src="@drawable/ic_add_more_black"
-        app:layout_constraintBottom_toTopOf="@+id/post_text_content"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.363" />
-
-    <ImageView
-        android:id="@+id/post_home_image"
-        android:layout_width="0dp"
-        android:layout_height="200dp"
-        android:background="@color/white"
-        android:visibility="gone"
-        app:layout_constraintBottom_toTopOf="@+id/events_layout"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/post_text_content" />
-
-
-    <LinearLayout
-        android:id="@+id/events_layout"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="2dp"
-        android:orientation="horizontal"
-        app:layout_constraintBottom_toTopOf="@+id/line"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/post_home_image">
-
-        <Button
-            android:id="@+id/post_rate"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="5dp"
-            android:background="@null"
-            android:drawableStart="@drawable/ic_star_border_black_24dp"
-            android:textAllCaps="false"
-            android:textColor="@color/content_text_color" />
-
-
-        <Button
-            android:id="@+id/post_comment"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="5dp"
-            android:layout_weight="1"
-            android:background="@null"
-            android:drawableStart="@drawable/ic_comment_black_24dp"
-            android:textAllCaps="false"
-            android:textColor="@color/content_text_color" />
-
-        <Button
-            android:id="@+id/post_share"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:background="@null"
-            android:drawableStart="@drawable/ic_share_black"
-            android:paddingStart="10dp"
-
-            android:textAllCaps="false"
-            android:textColor="@color/content_text_color" />
-
-    </LinearLayout>
-
-    <View
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:id="@+id/line"
-        android:background="@color/gray_line_color"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/events_layout" />
+        android:layout_height="wrap_content"
+        android:background="@color/white">
+
+        <TextView
+            android:id="@+id/post_text_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="8dp"
+            android:background="@color/white"
+            android:textColor="@color/content_text_color"
+            app:layout_constraintEnd_toStartOf="@+id/post_more"
+            app:layout_constraintHorizontal_bias="0.981"
+            app:layout_constraintStart_toEndOf="@+id/post_home_user_name"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="21 : 45" />
+
+        <com.blogspot.atifsoftwares.circularimageview.CircularImageView
+            android:id="@+id/post_home_user_img"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:layout_margin="5dp"
+            android:src="@drawable/ic_default_image"
+            app:layout_constraintRight_toLeftOf="@+id/post_home_user_name"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+        <TextView
+
+            android:id="@+id/post_home_user_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="12dp"
+            android:background="@drawable/txt_card_bg"
+            android:lineSpacingExtra="8sp"
+            android:text="User Name "
+            android:textColor="@color/black"
+            app:layout_constraintBottom_toTopOf="@+id/post_text_content"
+            app:layout_constraintStart_toEndOf="@+id/post_home_user_img" />
+
+        <TextView
+            android:id="@+id/post_text_content"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:autoLink="all"
+            android:lineSpacingExtra="8sp"
+            android:padding="9dp"
+            android:text="@string/lorem_text"
+            android:textColor="@color/content_text_color"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/post_home_user_img" />
+
+        <ImageButton
+            android:id="@+id/post_more"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
+            android:background="@null"
+            android:src="@drawable/ic_add_more_black"
+            app:layout_constraintBottom_toTopOf="@+id/post_text_content"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.363" />
+
+        <ImageView
+            android:id="@+id/post_home_image"
+            android:layout_width="0dp"
+            android:layout_height="200dp"
+            android:adjustViewBounds="true"
+            android:background="@color/white"
+            android:scaleType="fitXY"
+            android:visibility="gone"
+            app:layout_constraintBottom_toTopOf="@+id/events_layout"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/post_text_content" />
+
+
+        <LinearLayout
+            android:id="@+id/events_layout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="2dp"
+            android:orientation="horizontal"
+            app:layout_constraintBottom_toTopOf="@+id/line"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/post_home_image">
+
+            <Button
+                android:id="@+id/post_rate"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="5dp"
+                android:background="@null"
+                android:drawableStart="@drawable/ic_star_border_black_24dp"
+                android:textAllCaps="false"
+                android:textColor="@color/content_text_color" />
+
+
+            <Button
+                android:id="@+id/post_comment"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="5dp"
+                android:layout_weight="1"
+                android:background="@null"
+                android:drawableStart="@drawable/ic_comment_black_24dp"
+                android:textAllCaps="false"
+                android:textColor="@color/content_text_color" />
+
+            <Button
+                android:id="@+id/post_share"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="@null"
+                android:drawableStart="@drawable/ic_share_black"
+                android:drawablePadding="0dp"
+                android:paddingStart="30dp"
+                android:textAllCaps="false"
+                android:textColor="@color/content_text_color" />
+
+        </LinearLayout>
+
+        <View
+            android:id="@+id/line"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/gray_line_color"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/events_layout" />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.cardview.widget.CardView>

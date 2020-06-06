@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     package="com.example.geek.starea">
 
     <uses-permission android:name="android.permission.INTERNET" />
@@ -12,20 +13,20 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_logo_launcher"
         android:supportsRtl="true"
-        android:theme="@style/Theme.MaterialComponents.NoActionBar.Bridge">
-        <activity android:name=".PostDetailActivity"></activity>
+        android:theme="@style/Theme.MaterialComponents.NoActionBar.Bridge"
+        tools:ignore="AllowBackup">
+        <activity android:name=".PostDetailActivity"/>
         <activity android:name=".ThereProfileActivity" />
         <activity android:name=".AddPostActivity" />
         <activity android:name=".QrActivity" />
         <activity android:name=".Auth.LoginActivity" />
         <activity android:name=".MainActivity">
+<!--            <intent-filter>-->
+<!--                <action android:name="android.intent.action.MAIN" />-->
 
-            <!-- <intent-filter> -->
-            <!-- <action android:name="android.intent.action.MAIN" /> -->
 
-
-            <!-- <category android:name="android.intent.category.LAUNCHER" /> -->
-            <!-- </intent-filter> -->
+<!--                <category android:name="android.intent.category.LAUNCHER" />-->
+<!--            </intent-filter>-->
         </activity>
         <activity android:name=".Auth.SignupActivity">
 
@@ -41,18 +42,20 @@
         <activity
             android:name=".Chat.ChatActivity"
             android:theme="@style/AppThemeNo" />
-        <activity android:name=".Auth.SplachActivity">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
+        <activity android:name=".Auth.SplashActivity">
+                        <intent-filter>
+                            <action android:name="android.intent.action.MAIN" />
+
+                            <category android:name="android.intent.category.LAUNCHER" />
+                        </intent-filter>
         </activity>
 
         <service
             android:name=".notifications.FirebaseService"
             android:enabled="true"
-            android:exported="true">
+            android:exported="true"
+            tools:ignore="ExportedService">
             <intent-filter>
                 <action android:name="com.google.firebase.INSTANCE_ID_SERVICE" />
             </intent-filter>
@@ -60,7 +63,8 @@
         <service
             android:name=".notifications.FiirebaseMessaging"
             android:enabled="true"
-            android:exported="true">
+            android:exported="true"
+            tools:ignore="ExportedService">
             <intent-filter>
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />
             </intent-filter>

@@ -1,13 +1,18 @@
 package com.example.geek.starea.Adapters;
 
-import android.content.Context;
+import android.annotation.SuppressLint;
+import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
 import android.text.format.DateFormat;
+import android.view.Gravity;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.PopupMenu;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -15,30 +20,22 @@ import androidx.recyclerview.widget.DiffUtil;
 import androidx.recyclerview.widget.ListAdapter;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
 import com.example.geek.starea.Models.ModelPost;
 import com.example.geek.starea.R;
-import com.google.firebase.database.DatabaseReference;
 import com.squareup.picasso.Picasso;
+import com.stfalcon.imageviewer.StfalconImageViewer;
+import com.stfalcon.imageviewer.loader.ImageLoader;
 
 import java.util.Calendar;
-import java.util.List;
 import java.util.Locale;
 
 public class AdapterPost extends ListAdapter<ModelPost, AdapterPost.PostHolder> {
-    Context context;
-    List<ModelPost> postList;
-    String myUid;
-    private DatabaseReference ratesRef;
-    private DatabaseReference postsRef;
-    boolean mProcessRate = false;
 
     private HomePostListeners homePostListeners;
 
     public AdapterPost() {
         super(diffCallback);
-//        myUid = FirebaseAuth.getInstance().getCurrentUser().getUid();
-//        ratesRef = FirebaseDatabase.getInstance().getReference().child("Rates");
-//        postsRef = FirebaseDatabase.getInstance().getReference().child("Posts");
     }
 
     @NonNull
@@ -51,195 +48,8 @@ public class AdapterPost extends ListAdapter<ModelPost, AdapterPost.PostHolder> 
 
     @Override
     public void onBindViewHolder(@NonNull final PostHolder holder, final int position) {
-        // get data
-
-//        // handle buttons clicks
-//        holder.moreBtn.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                showMoreOptions(holder.moreBtn, uid, myUid, pId, pImage);
-//            }
-//        });
-//        holder.rateBtn.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-////                Toast.makeText(context, " ...Rate " , Toast.LENGTH_LONG).show();
-//                final int pRates = Integer.parseInt(postList.get(position).getpRates());
-//                mProcessRate = true;
-//                final String postId = postList.get(position).getpId();
-//                ratesRef.addValueEventListener(new ValueEventListener() {
-//                    @Override
-//                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-//                        if (mProcessRate) {
-//                            if (dataSnapshot.child(postId).hasChild(myUid)) {
-//                                // Rated before  so delete rate
-//                                postsRef.child(postId).child("pRates").setValue("" + (pRates - 1));
-//                                ratesRef.child(postId).child(myUid).removeValue();
-//                                mProcessRate = false;
-//                            } else {
-//                                // not rated so rate post
-//                                postsRef.child(postId).child("pRates").setValue("" + (pRates + 1));
-//                                ratesRef.child(postId).child(myUid).setValue("Rated");
-//                                mProcessRate = false;
-//                            }
-//                        }
-//
-//                    }
-//
-//                    @Override
-//                    public void onCancelled(@NonNull DatabaseError databaseError) {
-//
-//                    }
-//                });
-//            }
-//        });
-//        holder.commentBtn.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-////                Toast.makeText(context, "Comment... " , Toast.LENGTH_LONG).show();
-//                // start post detail activity
-//                Intent intent = new Intent(context, PostDetailActivity.class);
-//                intent.putExtra("postId", pId);
-//                context.startActivity(intent);
-//            }
-//        });
-//        holder.shareBtn.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                Toast.makeText(context, "Share... ", Toast.LENGTH_LONG).show();
-//            }
-//        });
-//        holder.uNameTv.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                // on click go to clicked user profile and show his data
-//                Intent intent = new Intent(context, ThereProfileActivity.class);
-//                intent.putExtra("uid", uid);
-//                context.startActivity(intent);
-//            }
-//        });
-//        holder.pContentTv.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                // start post detail activity
-//                Intent intent = new Intent(context, PostDetailActivity.class);
-//                intent.putExtra("postId", pId);
-//                context.startActivity(intent);
-//            }
-//        });
         holder.bind(getItem(position));
     }
-
-//    private void showMoreOptions(ImageButton moreBtn, String uid, String myUid, final String pId, final String pImage) {
-//        // creating popup menu have options
-//        PopupMenu popupMenu = new PopupMenu(context, moreBtn, Gravity.END);
-//        // show delete post to posts of current user only
-//        if (uid.equals(myUid)) {
-//            // add items on menu
-//            popupMenu.getMenu().add(Menu.NONE, 0, 0, "Delete");
-//
-//        }
-//
-//        // item click handle
-//        popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
-//            @Override
-//            public boolean onMenuItemClick(MenuItem item) {
-//                int id = item.getItemId();
-//                if (id == 0) {
-//                    // delete is clicked
-//                    beginDelete(pId, pImage);
-//
-//                }
-//
-//                return false;
-//            }
-//        });
-//        // show menu
-//        popupMenu.show();
-//    }
-//
-//    private void beginDelete(String pId, String pImage) {
-//        // post can be with or without image
-//        if (pImage.equals("no Image")) {
-//            // without image
-//            deleteWithoutImage(pId);
-//
-//        } else {
-//            // with image
-//            deleteWithImage(pId, pImage);
-//
-//
-//        }
-//    }
-//
-//    private void deleteWithImage(final String pId, String pImage) {
-//        // progress bar
-//        final ProgressDialog pd = new ProgressDialog(context);
-//        pd.setMessage("Deleting...");
-//        // 1- delete image by url
-//        // 2- delete post from db by id
-//        StorageReference picref = FirebaseStorage.getInstance().getReferenceFromUrl(pImage);
-//        picref.delete().addOnSuccessListener(new OnSuccessListener<Void>() {
-//            @Override
-//            public void onSuccess(Void aVoid) {
-//                // image deleted , now delete from db
-//                Query query = FirebaseDatabase.getInstance().getReference("Posts").orderByChild("pId").equalTo(pId);
-//                query.addListenerForSingleValueEvent(new ValueEventListener() {
-//                    @Override
-//                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-//                        for (DataSnapshot ds : dataSnapshot.getChildren()) {
-//                            ds.getRef().removeValue(); // remove value of pid from firebase
-//
-//                        }
-//                        Toast.makeText(context, "Deleted Successfully", Toast.LENGTH_LONG).show();
-//                        pd.dismiss();
-//
-//                    }
-//
-//                    @Override
-//                    public void onCancelled(@NonNull DatabaseError databaseError) {
-//                        Toast.makeText(context, " Error occurred", Toast.LENGTH_LONG).show();
-//
-//                    }
-//                });
-//
-//            }
-//        }).addOnFailureListener(new OnFailureListener() {
-//            @Override
-//            public void onFailure(@NonNull Exception e) {
-//                // error occurred
-//                pd.dismiss();
-//                Toast.makeText(context, "" + e.getMessage(), Toast.LENGTH_LONG).show();
-//
-//            }
-//        });
-//    }
-//
-//    private void deleteWithoutImage(String pId) {
-//        // progress bar
-//        final ProgressDialog pd = new ProgressDialog(context);
-//        pd.setMessage("Deleting...");
-//        Query query = FirebaseDatabase.getInstance().getReference("Posts").orderByChild("pId").equalTo(pId);
-//        query.addListenerForSingleValueEvent(new ValueEventListener() {
-//            @Override
-//            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-//                for (DataSnapshot ds : dataSnapshot.getChildren()) {
-//                    ds.getRef().removeValue(); // remove value of pid from firebase
-//
-//                }
-//                Toast.makeText(context, "Deleted Successfully", Toast.LENGTH_LONG).show();
-//                pd.dismiss();
-//
-//            }
-//
-//            @Override
-//            public void onCancelled(@NonNull DatabaseError databaseError) {
-//                Toast.makeText(context, " Error occurred", Toast.LENGTH_LONG).show();
-//
-//            }
-//        });
-//
-//    }
 
 
     // view holder class
@@ -263,10 +73,32 @@ public class AdapterPost extends ListAdapter<ModelPost, AdapterPost.PostHolder> 
             commentBtn = itemView.findViewById(R.id.post_comment);
             shareBtn = itemView.findViewById(R.id.post_share);
 
+            uNameTv.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    homePostListeners.onUserClicked(getItem(getAdapterPosition()));
+                }
+            });
             rateBtn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     homePostListeners.onRateClicked(getAdapterPosition(), getItem(getAdapterPosition()));
+                }
+            });
+            pImageIv.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Bitmap bitmap = ((BitmapDrawable) pImageIv.getDrawable()).getBitmap();
+                    Bitmap[] bitmaps = {bitmap};
+                    new StfalconImageViewer.Builder<>(v.getContext(), bitmaps, new ImageLoader<Bitmap>() {
+                        @Override
+                        public void loadImage(ImageView imageView, Bitmap imageDrawable) {
+                            Glide.with(imageView.getContext()).load(imageDrawable).into(imageView);
+                        }
+                    })
+                            .withTransitionFrom(pImageIv)
+                            .show();
+                    homePostListeners.onImageClicked(getItem(getAdapterPosition()));
                 }
             });
             commentBtn.setOnClickListener(new View.OnClickListener() {
@@ -281,24 +113,38 @@ public class AdapterPost extends ListAdapter<ModelPost, AdapterPost.PostHolder> 
                     homePostListeners.onShareClicked(getItem(getAdapterPosition()));
                 }
             });
-            moreBtn.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    homePostListeners.onMoreClicked(getItem(getAdapterPosition()));
-                }
-            });
             pContentTv.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     homePostListeners.onContentClicked(getItem(getAdapterPosition()));
                 }
             });
-
+            moreBtn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (getItem(getAdapterPosition()).isOwner()) {
+                        PopupMenu popupMenu = new PopupMenu(v.getContext(), moreBtn, Gravity.END);
+                        popupMenu.inflate(R.menu.post_items);
+                        popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+                            @Override
+                            public boolean onMenuItemClick(MenuItem item) {
+                                if (item.getItemId() == R.id.deletePost) {
+                                    homePostListeners.onDeleteClicked(getItem(getAdapterPosition()));
+                                    return true;
+                                }
+                                return false;
+                            }
+                        });
+                        popupMenu.show();
+                    } else {
+                        moreBtn.setVisibility(View.GONE);
+                    }
+                }
+            });
         }
 
+        @SuppressLint("SetTextI18n")
         void bind(ModelPost modelPost) {
-            final String uid = modelPost.getUid();
-            String uEmail = modelPost.getuEmail();
             // convert timestamp
             final Calendar calendar = Calendar.getInstance(Locale.ENGLISH);
             calendar.setTimeInMillis(Long.parseLong(modelPost.getpTime()));
@@ -309,62 +155,28 @@ public class AdapterPost extends ListAdapter<ModelPost, AdapterPost.PostHolder> 
             rateBtn.setText(" " + modelPost.getpRates());
             commentBtn.setText(" " + modelPost.getpComments());
             // set rates for each post
-//            setRates(modelPost.getpRates());
-            if (modelPost.isRated()) {
-                rateBtn.setCompoundDrawablesRelativeWithIntrinsicBounds(R.drawable.ic_full_star_black, 0, 0, 0);
-            } else {
-                // user has not rated this post
-                rateBtn.setCompoundDrawablesRelativeWithIntrinsicBounds(R.drawable.ic_star_border_black_24dp, 0, 0, 0);
-            }
+            if (modelPost.isRated())
+                rateBtn.setCompoundDrawablesRelativeWithIntrinsicBounds
+                        (R.drawable.ic_full_star_black, 0, 0, 0);
+            else rateBtn.setCompoundDrawablesRelativeWithIntrinsicBounds
+                    (R.drawable.ic_star_border_black_24dp, 0, 0, 0);
+            if (modelPost.isOwner())
+                moreBtn.setVisibility(View.VISIBLE);
+            else moreBtn.setVisibility(View.GONE);
             // set user dp
-            try {
-                Picasso.get().load(modelPost.getuDp()).placeholder(R.drawable.ic_default_image).into(uImageIv);
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
+//            Picasso.get().load(modelPost.getuDp()).placeholder(R.drawable.ic_default_image).fit().into(uImageIv);
+            Glide.with(uImageIv.getContext()).load(modelPost.getuDp()).placeholder(R.drawable.ic_default_image).into(uImageIv);
             // in case post has no image
             if (modelPost.getpImage().equals("no Image")) {
                 pImageIv.setVisibility(View.GONE);
-
             } else {
-
-                try {
-                    Picasso.get().load(modelPost.getpImage()).placeholder(R.drawable.post_home_deafault_img).into(pImageIv);
-                    pImageIv.setVisibility(View.VISIBLE);
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-
+                pImageIv.setVisibility(View.VISIBLE);
+//                Picasso.get().load(modelPost.getpImage()).placeholder(R.drawable.post_home_deafault_img).fit().into(pImageIv);
+                Glide.with(pImageIv.getContext()).load(modelPost.getpImage())
+                        .placeholder(R.drawable.post_home_deafault_img).into(pImageIv);
             }
-
-
         }
 
-
-//        private void setRates(final String postKey) {
-//            ratesRef.addValueEventListener(new ValueEventListener() {
-//                @Override
-//                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-//                    if (dataSnapshot.child(postKey).hasChild(myUid)) {
-//                        // user has rate this post
-//                        // change drawable star to rated
-//                        rateBtn.setCompoundDrawablesRelativeWithIntrinsicBounds(R.drawable.ic_full_star_black, 0, 0, 0);
-//
-//
-//                    } else {
-//                        // user has not rated this post
-//                        rateBtn.setCompoundDrawablesRelativeWithIntrinsicBounds(R.drawable.ic_star_border_black_24dp, 0, 0, 0);
-//
-//                    }
-//
-//                }
-//
-//                @Override
-//                public void onCancelled(@NonNull DatabaseError databaseError) {
-//
-//                }
-//            });
-//        }
     }
 
     public void setOnPostClickListeners(HomePostListeners homePostListeners) {
@@ -384,15 +196,19 @@ public class AdapterPost extends ListAdapter<ModelPost, AdapterPost.PostHolder> 
     };
 
     public interface HomePostListeners {
+        void onUserClicked(ModelPost modelPost);
+
         void onRateClicked(int position, ModelPost modelPost);
+
+        void onImageClicked(ModelPost modelPost);
 
         void onCommentClicked(ModelPost modelPost);
 
         void onShareClicked(ModelPost modelPost);
 
-        void onMoreClicked(ModelPost modelPost);
-
         void onContentClicked(ModelPost modelPost);
+
+        void onDeleteClicked(ModelPost modelPost);
     }
 
 }
