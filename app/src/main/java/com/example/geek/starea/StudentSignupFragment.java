@@ -447,6 +447,9 @@ public class StudentSignupFragment extends Fragment {
                     hashMap.put("university", university);
                     hashMap.put("faculty", faculty);
                     hashMap.put("department", department);
+                    hashMap.put("sCode", sCode);
+                    hashMap.put("gpa", gpa);
+                    hashMap.put("level", level);
                     hashMap.put("photo", "" + downloadUri);
                     hashMap.put("cover", "");
                     hashMap.put("accountType", accountType);
