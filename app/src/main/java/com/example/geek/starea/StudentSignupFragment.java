@@ -113,7 +113,7 @@ public class StudentSignupFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_student_signup, container, false);
-        ButterKnife.bind(this , view);
+        ButterKnife.bind(this, view);
         auth = FirebaseAuth.getInstance();
         firebaseDatabase = FirebaseDatabase.getInstance();
         databaseReference = firebaseDatabase.getReference("Users");
@@ -141,7 +141,7 @@ public class StudentSignupFragment extends Fragment {
             }
         });
 
-                //create user
+        //create user
 //                auth.createUserWithEmailAndPassword(bundle.getString("email"), bundle.getString("password"))
 //                        .addOnCompleteListener(getActivity(), new OnCompleteListener<AuthResult>() {
 //                            @Override
@@ -197,7 +197,8 @@ public class StudentSignupFragment extends Fragment {
 
         return view;
     }
-    private void inputData(){
+
+    private void inputData() {
         university = universityInput.getText().toString().trim();
         faculty = facultyInput.getText().toString().trim();
         department = departmentInput.getText().toString().trim();
@@ -207,11 +208,9 @@ public class StudentSignupFragment extends Fragment {
             level = oneRadioBtn.getText().toString();
         } else if (twoRadioBtn.isChecked()) {
             level = twoRadioBtn.getText().toString();
-        }
-        else if(threeRadioBtn.isChecked()) {
+        } else if (threeRadioBtn.isChecked()) {
             level = threeRadioBtn.getText().toString();
-        }
-        else if(fourRadioBtn.isChecked()){
+        } else if (fourRadioBtn.isChecked()) {
             level = fourRadioBtn.getText().toString();
         }
 
@@ -261,76 +260,52 @@ public class StudentSignupFragment extends Fragment {
         });
 
 
-
     }
-//TODO: bazeeeeet bazt 5aleeeees
 
+//TODO: da ana ely hbwazak
     private void saveFirebaseData() {
 //        user = auth.getCurrentUser();
         uid = auth.getUid();
         auth.getCurrentUser().sendEmailVerification().addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override
             public void onComplete(@NonNull Task<Void> task) {
-                if (image_uri == null){
-                    user = auth.getCurrentUser();
-                    uid = user.getUid();
-                    auth.getCurrentUser().sendEmailVerification().addOnCompleteListener(new OnCompleteListener<Void>() {
-                        @Override
-                        public void onComplete(@NonNull Task<Void> task) {
-                            if (task.isSuccessful()) {
-                                HashMap<String, Object> hashMap = new HashMap<>();
-                                hashMap.put("email", email);
-                                hashMap.put("uId", uid);
-                                hashMap.put("name", name);
-                                hashMap.put("onlineStatus", "online");
-                                hashMap.put("typingTo", "noOne");
-                                hashMap.put("university", university);
-                                hashMap.put("faculty", faculty);
-                                hashMap.put("department", department);
-                                hashMap.put("sCode", sCode);
-                                hashMap.put("gpa", gpa);
-                                hashMap.put("level", level);
-                                hashMap.put("photo", "");
-                                hashMap.put("cover", "");
-                                hashMap.put("accountType", accountType);
+                if (task.isSuccessful()) {
+                    if (image_uri == null) {
+                        HashMap<String, Object> hashMap = new HashMap<>();
+                        hashMap.put("email", email);
+                        hashMap.put("uId", uid);
+                        hashMap.put("name", name);
+                        hashMap.put("onlineStatus", "online");
+                        hashMap.put("typingTo", "noOne");
+                        hashMap.put("university", university);
+                        hashMap.put("faculty", faculty);
+                        hashMap.put("department", department);
+                        hashMap.put("sCode", sCode);
+                        hashMap.put("gpa", gpa);
+                        hashMap.put("level", level);
+                        hashMap.put("photo", "");
+                        hashMap.put("cover", "");
+                        hashMap.put("accountType", accountType);
 
-                                //path to store user data named "Users"
-                                DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Users");
-                                reference.child(uid).setValue(hashMap).addOnSuccessListener(new OnSuccessListener<Void>() {
-                                    @Override
-                                    public void onSuccess(Void aVoid) {
-                                        Toast.makeText(getActivity(), "User Created Successfully", Toast.LENGTH_LONG).show();
-
-                                        startActivity(new Intent(getActivity(), LoginActivity.class));
-
-
-                                    }
-                                }).addOnFailureListener(new OnFailureListener() {
-                                    @Override
-                                    public void onFailure(@NonNull Exception e) {
-
-                                    }
-                                });
-
-
-
-
+                        //path to store user data named "Users"
+                        DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Users");
+                        reference.child(uid).setValue(hashMap).addOnSuccessListener(new OnSuccessListener<Void>() {
+                            @Override
+                            public void onSuccess(Void aVoid) {
+                                Toast.makeText(getActivity(), "User Created Successfully", Toast.LENGTH_LONG).show();
+                                startActivity(new Intent(getActivity(), LoginActivity.class));
+                            }
+                        }).addOnFailureListener(new OnFailureListener() {
+                            @Override
+                            public void onFailure(@NonNull Exception e) {
 
                             }
-                        }
-                    });
-                }
-                else {
-                    // save with image
-                    uploadProfileCoverPhoto(image_uri);
-
+                        });
+                    } else uploadProfileCoverPhoto(image_uri);
                 }
             }
         });
-
     }
-
-
 
 
     private boolean chickStoragePermission() {
@@ -357,6 +332,7 @@ public class StudentSignupFragment extends Fragment {
         //request runtime Storage permission
         requestPermissions(cameraPermissons, CAMERA_REQUEST_CODE);
     }
+
     private void showImagePicDialog() {
         // show dialog containing gallery and camera to pick a photo
         // option to show in dialog
@@ -437,12 +413,12 @@ public class StudentSignupFragment extends Fragment {
                 //image is picked from gallery get uri
                 image_uri = data.getData();
                 profileIv.setImageURI(image_uri);
-               // uploadProfileCoverPhoto(image_uri);
+                // uploadProfileCoverPhoto(image_uri);
 
             }
             if (requestCode == IMAGE_PICK_CAMERA_CODE) {
                 // image is picked from cam get uri
-              //  uploadProfileCoverPhoto(image_uri);
+                //  uploadProfileCoverPhoto(image_uri);
             }
         }
         super.onActivityResult(requestCode, resultCode, data);
@@ -451,6 +427,7 @@ public class StudentSignupFragment extends Fragment {
     private void uploadProfileCoverPhoto(Uri uri) {
         // show progress
         pd.show();
+        user = auth.getCurrentUser();
         String filePathAndName = storagePath + "" + profieOrCover + "_" + user.getUid();
         StorageReference storageReference1 = storageReference.child(filePathAndName);
         storageReference1.putFile(uri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
@@ -461,55 +438,35 @@ public class StudentSignupFragment extends Fragment {
                 final Uri downloadUri = uriTask.getResult();
                 //check image is uploaded or not
                 if (uriTask.isSuccessful()) {
-                    user = auth.getCurrentUser();
-                    uid = user.getUid();
-                    auth.getCurrentUser().sendEmailVerification().addOnCompleteListener(new OnCompleteListener<Void>() {
+                    HashMap<String, Object> hashMap = new HashMap<>();
+                    hashMap.put("email", email);
+                    hashMap.put("uId", uid);
+                    hashMap.put("name", name);
+                    hashMap.put("onlineStatus", "online");
+                    hashMap.put("typingTo", "noOne");
+                    hashMap.put("university", university);
+                    hashMap.put("faculty", faculty);
+                    hashMap.put("department", department);
+                    hashMap.put("photo", "" + downloadUri);
+                    hashMap.put("cover", "");
+                    hashMap.put("accountType", accountType);
+                    FirebaseDatabase database = FirebaseDatabase.getInstance();
+                    //path to store user data named "Users"
+                    DatabaseReference reference = database.getReference("Users");
+                    reference.child(uid).setValue(hashMap).addOnSuccessListener(new OnSuccessListener<Void>() {
                         @Override
-                        public void onComplete(@NonNull Task<Void> task) {
-                            if (task.isSuccessful()) {
-                                HashMap<String, Object> hashMap = new HashMap<>();
-                                hashMap.put("email", email);
-                                hashMap.put("uId", uid);
-                                hashMap.put("name", name);
-                                hashMap.put("onlineStatus", "online");
-                                hashMap.put("typingTo", "noOne");
-                                hashMap.put("university", university);
-                                hashMap.put("faculty", faculty);
-                                hashMap.put("department", department);
-                                hashMap.put("photo", "" + downloadUri);
-                                hashMap.put("cover", "");
-                                hashMap.put("accountType", accountType);
-                                FirebaseDatabase database = FirebaseDatabase.getInstance();
-                                //path to store user data named "Users"
-                                DatabaseReference reference = database.getReference("Users");
-                                reference.child(uid).setValue(hashMap).addOnSuccessListener(new OnSuccessListener<Void>() {
-                                    @Override
-                                    public void onSuccess(Void aVoid) {
-                                        pd.dismiss();
-                                        Toast.makeText(getActivity(), "User Created Successfully", Toast.LENGTH_LONG).show();
-
-
-                                        startActivity(new Intent(getActivity(), LoginActivity.class));
-
-                                    }
-                                }).addOnFailureListener(new OnFailureListener() {
-                                    @Override
-                                    public void onFailure(@NonNull Exception e) {
-                                        pd.dismiss();
-
-                                        Toast.makeText(getActivity(), "Error  Updating Image ..", Toast.LENGTH_LONG).show();
-
-                                    }
-                                });
-
-
-
-
-
-                            }
+                        public void onSuccess(Void aVoid) {
+                            pd.dismiss();
+                            Toast.makeText(getActivity(), "User Created Successfully", Toast.LENGTH_LONG).show();
+                            startActivity(new Intent(getActivity(), LoginActivity.class));
+                        }
+                    }).addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+                            pd.dismiss();
+                            Toast.makeText(getActivity(), "Error  Updating Image ..", Toast.LENGTH_LONG).show();
                         }
                     });
-
                     // if user change hiss name also change it from his posts
 //                    if (profieOrCover.equals("photo")) {
 //                        DatabaseReference ref = FirebaseDatabase.getInstance().getReference("Posts");
@@ -566,13 +523,11 @@ public class StudentSignupFragment extends Fragment {
 //                        });
 //
 //                    }
-
                 } else {
                     // not uploaded
                     pd.dismiss();
                     Toast.makeText(getActivity(), "Error occurred ", Toast.LENGTH_LONG).show();
                 }
-
             }
         }).addOnFailureListener(new OnFailureListener() {
             @Override
