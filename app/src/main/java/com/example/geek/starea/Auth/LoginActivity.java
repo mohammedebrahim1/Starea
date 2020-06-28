@@ -8,6 +8,9 @@ import android.widget.Button;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.example.geek.starea.MainActivity;
 import com.example.geek.starea.R;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
@@ -28,9 +31,6 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.HashMap;
-
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
 
 public class LoginActivity extends AppCompatActivity {
     private static final int RC_SIGN_IN = 100;
@@ -129,14 +129,29 @@ public class LoginActivity extends AppCompatActivity {
                                         Toast.makeText(LoginActivity.this, getString(R.string.auth_failed), Toast.LENGTH_LONG).show();
                                     }
                                 } else {
+                                    if (auth.getCurrentUser().isEmailVerified()){
                                     Intent intent = new Intent(LoginActivity.this, MainActivity.class);
                                     startActivity(intent);
-                                    finish();
+                                    finish();}
+                                    else Toast.makeText(LoginActivity.this , "Please chick your mail to verify your account!" , Toast.LENGTH_LONG).show();
                                 }
                             }
                         });
             }
         });
+        // to handle first use screens
+//        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
+//
+//        boolean firstOpened = preferences.getBoolean("first_opened", true);
+//
+//        if(firstOpenened) {
+//
+//            showWelcomeScreen();
+//
+//            SharedPreferences.Editor editor = preferences.edit();
+//            editor.putBoolean("first_opened", false);
+//            editor.apply();
+//        }
         btnGoogleSignin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
