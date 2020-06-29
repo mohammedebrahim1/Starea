@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    >
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/tool_bar"
         android:layout_width="match_parent"
@@ -44,6 +45,7 @@
         android:id="@+id/chat_recycler_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="@color/white"
         android:layout_below="@+id/tool_bar"
         android:layout_above="@+id/chat_layout"/>
 <!--    send message edit text-->
@@ -62,9 +64,12 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:hint="Type a message "
+        style="@style/txtFieldLayoutStyle"
         android:textColor="@color/black"
         android:inputType="textCapSentences|textImeMultiLine"
-        android:background="@null"
+        android:background="@drawable/chat_et"
+        android:layout_marginBottom="4dp"
+        android:layout_marginStart="2dp"
         android:padding="15dp"
         android:layout_weight="1"/>
     <ImageButton
@@ -72,7 +77,7 @@
         android:layout_width="40dp"
         android:layout_height="40dp"
         android:background="@null"
-        android:src="@drawable/ic_send_black"/>
+        android:src="@drawable/ic_send_blue_24dp"/>
 
 </LinearLayout>
 

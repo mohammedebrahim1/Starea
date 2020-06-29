@@ -1,10 +1,21 @@
 package com.example.geek.starea;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.Toast;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.app.ActionBarDrawerToggle;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+import androidx.core.view.GravityCompat;
+import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.fragment.app.FragmentTransaction;
 
 import com.example.geek.starea.Auth.LoginActivity;
 import com.example.geek.starea.Chat.ChatListFragment;
@@ -15,6 +26,7 @@ import com.example.geek.starea.notifications.Token;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -22,16 +34,14 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.iid.FirebaseInstanceId;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
-import androidx.fragment.app.FragmentTransaction;
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
-
 public class MainActivity extends AppCompatActivity {
 
 
+
     private BottomNavigationView bottomNavigationBar;
+    private DrawerLayout drawerLayout;
+    private NavigationView navigationView;
+    private ActionBarDrawerToggle drawerToggle;
     FirebaseUser user;
     FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
     String mUID;
@@ -45,6 +55,20 @@ public class MainActivity extends AppCompatActivity {
         bottomNavigationBar.setOnNavigationItemSelectedListener(selectedListener);
         Toolbar toolbar = findViewById(R.id.main_toolbar);
         setSupportActionBar(toolbar);
+        ActionBar actionbar = getSupportActionBar();
+        actionbar.setHomeAsUpIndicator(R.drawable.logo);
+        actionbar.setDisplayHomeAsUpEnabled(true);
+        drawerLayout = findViewById(R.id.drawer_layout);
+        navigationView = findViewById(R.id.navigation_view);
+        navDrawer();
+        toolbar.setNavigationIcon(R.mipmap.ic_logo_launcher);
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @SuppressLint("WrongConstant")
+            @Override
+            public void onClick(View v) {
+                drawerLayout.openDrawer(GravityCompat.START);
+            }
+        });
 //        instantLogin();
         // default on start
         HomeFragment fragment1 = new HomeFragment();
@@ -88,6 +112,38 @@ public class MainActivity extends AppCompatActivity {
         reference.child(mUID).setValue(mToken);
     }
 
+    private void navDrawer() {
+        drawerToggle = new ActionBarDrawerToggle(this, drawerLayout, R.string.open, R.string.close);
+        drawerLayout.addDrawerListener(drawerToggle);
+        drawerToggle.syncState();
+        drawerToggle.setDrawerSlideAnimationEnabled(true);
+        View headerBinding = getLayoutInflater().inflate(R.layout.header, null);
+//        navigationView.addHeaderView(headerBinding.getRootView());
+        navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                int id = item.getItemId();
+                switch (id) {
+                    case 1:
+
+                        break;
+                    case 2:
+
+                        break;
+                }
+                return true;
+            }
+        });
+
+
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        if (drawerToggle.onOptionsItemSelected(item))
+            return true;
+        return super.onOptionsItemSelected(item);
+    }
 
     private BottomNavigationView.OnNavigationItemSelectedListener selectedListener =
             new BottomNavigationView.OnNavigationItemSelectedListener() {

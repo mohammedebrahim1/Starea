@@ -7,18 +7,16 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.blogspot.atifsoftwares.circularimageview.CircularImageView;
+import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.example.geek.starea.Chat.ChatActivity;
 import com.example.geek.starea.Models.ModelUser;
 import com.example.geek.starea.R;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
-
-import androidx.annotation.NonNull;
-import androidx.recyclerview.widget.RecyclerView;
 
 public class AdapterUser extends RecyclerView.Adapter<AdapterUser.myHolder> {
     Context context;
@@ -52,7 +50,7 @@ public class AdapterUser extends RecyclerView.Adapter<AdapterUser.myHolder> {
         myHolder.mNameTv.setText(userName);
         myHolder.mEmailTv.setText(userEmail);
         try {
-            Toast.makeText(context , "im " + userImage , Toast.LENGTH_LONG).show();
+          //  Toast.makeText(context , "im " + userImage , Toast.LENGTH_LONG).show();
             Picasso.get().load(userImage).placeholder(R.drawable.ic_default_image).into(myHolder.mAvatarIv);
 
         } catch (Exception e) {

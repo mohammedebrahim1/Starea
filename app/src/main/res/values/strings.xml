@@ -41,4 +41,6 @@
 
     <!--dummy text -->
     <string name="lorem_text">    Lorem ipsum dolor sit amet, consectetur adipiscing elit</string>
+    <string name="open">Open</string>
+    <string name="close">Close</string>
 </resources>
