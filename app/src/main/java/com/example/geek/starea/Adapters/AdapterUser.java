@@ -85,7 +85,7 @@ public class AdapterUser extends RecyclerView.Adapter<AdapterUser.myHolder> {
         public myHolder(@NonNull View context) {
             super(context);
             // init views
-            mAvatarIv = context.findViewById(R.id.profile_iv);
+            mAvatarIv = context.findViewById(R.id.instructorAvatar);
             mNameTv = context.findViewById(R.id.name_tv);
             mEmailTv = context.findViewById(R.id.email_tv);
 
