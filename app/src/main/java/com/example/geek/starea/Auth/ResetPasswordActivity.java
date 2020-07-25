@@ -7,13 +7,13 @@ import android.widget.Button;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.example.geek.starea.R;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
-
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
 
 public class ResetPasswordActivity extends AppCompatActivity {
     private androidx.appcompat.widget.AppCompatEditText inputEmail, inputPassword;
@@ -63,6 +63,7 @@ public class ResetPasswordActivity extends AppCompatActivity {
                                 }
 
                                 progressBar.setVisibility(View.GONE);
+                                finish();
                             }
                         });
             }

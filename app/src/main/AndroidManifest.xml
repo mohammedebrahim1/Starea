@@ -15,7 +15,8 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.MaterialComponents.NoActionBar.Bridge"
         tools:ignore="AllowBackup">
-        <activity android:name=".Auth.StudentSignupActivity"></activity>
+        <activity android:name=".DataStructuresActivity"></activity>
+        <activity android:name=".Auth.SignupActivity" />
         <activity android:name=".PostDetailActivity" />
         <activity android:name=".ThereProfileActivity" />
         <activity android:name=".AddPostActivity" />
@@ -30,15 +31,7 @@
             <!-- <category android:name="android.intent.category.LAUNCHER" /> -->
             <!-- </intent-filter> -->
         </activity>
-        <activity android:name=".Auth.SignupActivity">
-
-            <!-- <intent-filter> -->
-            <!-- <action android:name="android.intent.action.MAIN" /> -->
-
-
-            <!-- <category android:name="android.intent.category.LAUNCHER" /> -->
-            <!-- </intent-filter> -->
-        </activity>
+        <activity android:name=".Auth.WelcomePageActivity" />
         <activity android:name=".Auth.ResetPasswordActivity" />
         <activity android:name=".Auth.ProfileSettingsActivity" />
         <activity

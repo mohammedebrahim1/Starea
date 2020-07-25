@@ -8,9 +8,9 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 
-import com.example.geek.starea.R;
-
 import androidx.appcompat.app.AppCompatActivity;
+
+import com.example.geek.starea.R;
 
 public class SplashActivity extends AppCompatActivity {
     private static final int SPLASH_SCREEN = 2500;
@@ -37,7 +37,7 @@ public class SplashActivity extends AppCompatActivity {
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
-                Intent intent = new Intent(SplashActivity.this , LoginActivity.class);
+                Intent intent = new Intent(SplashActivity.this , WelcomePageActivity.class);
                 startActivity(intent);
                 finish();
             }

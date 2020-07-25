@@ -97,7 +97,7 @@
                 android:drawablePadding="10dp"
                 android:ems="10"
                 android:hint="Department"
-                android:inputType="number"
+                android:inputType="text"
                 android:textColor="@color/black" />
         </com.google.android.material.textfield.TextInputLayout>
 

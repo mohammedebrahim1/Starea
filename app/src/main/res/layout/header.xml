@@ -14,7 +14,7 @@
         android:padding="2dp"
         android:layout_marginTop="33dp"
         android:layout_marginStart="8dp"
-        android:src="@drawable/mystudent" />
+        android:src="@drawable/avatardraw" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -22,7 +22,7 @@
         android:id="@+id/nav_name"
         android:layout_marginStart="8dp"
         android:layout_marginTop="45dp"
-        android:text="Samee7a Zenhom"
+        android:text="Mohammed Ebrahim"
         android:textSize="18sp"
         android:textColor="@color/gray_line_color"
         android:textStyle="bold" />
@@ -32,6 +32,6 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="2dp"
         android:id="@+id/nav_mail"
-        android:text="samee7aZenhom@gmail.com"
+        android:text="mohammed_ebrahim@gmail.com"
         android:textColor="@color/gray_line_color" />
 </LinearLayout>

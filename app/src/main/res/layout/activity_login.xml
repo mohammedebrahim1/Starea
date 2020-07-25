@@ -1,33 +1,49 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/white"
     tools:context=".Auth.LoginActivity">
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@drawable/back"
-        android:gravity="center_horizontal"
-        android:orientation="vertical"
-        android:paddingStart="16dp"
-        android:paddingEnd="16dp">
 
-        <ImageView
-            android:layout_width="@dimen/logo_w_h"
-            android:layout_height="@dimen/logo_w_h"
-            android:src="@drawable/logo_full" />
+    <TextView
+        android:id="@+id/helloTv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="48dp"
+        android:text="Hello There!"
+        android:textColor="@color/gray"
+        android:textSize="40sp"
+        android:fontFamily="@font/bold"
+        app:layout_constraintBottom_toTopOf="@+id/linearLayout"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.648" />
+
+    <LinearLayout
+        android:id="@+id/linearLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="230dp"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toTopOf="@+id/btn_google"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
 
         <com.google.android.material.textfield.TextInputLayout
             style="@style/txtFieldLayoutStyle"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:paddingStart="15dp">
 
             <androidx.appcompat.widget.AppCompatEditText
                 android:id="@+id/email"
-                android:layout_width="match_parent"
+                android:layout_width="380dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
                 android:layout_marginBottom="10dp"
@@ -45,12 +61,13 @@
             style="@style/txtFieldLayoutStyle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:paddingStart="15dp"
             app:passwordToggleEnabled="true"
             app:passwordToggleTint="@android:color/darker_gray">
 
             <androidx.appcompat.widget.AppCompatEditText
                 android:id="@+id/password"
-                android:layout_width="match_parent"
+                android:layout_width="380dp"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="10dp"
                 android:drawableStart="@drawable/ic_pass"
@@ -64,62 +81,84 @@
                 android:textSize="15sp" />
         </com.google.android.material.textfield.TextInputLayout>
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
-
-            <com.google.android.gms.common.SignInButton
-                android:id="@+id/btn_google"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_margin="5dp"
-                android:layout_marginStart="5dp"
-                android:textSize="18sp"
-                app:buttonSize="wide" />
-
-            <Button
-                android:id="@+id/btn_login"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="5dp"
-                android:background="@drawable/et_bg"
-                android:text="@string/btn_login"
-                android:textColor="@android:color/black" />
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="horizontal">
-
-                <Button
-                    android:id="@+id/btn_reset_password"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:layout_marginTop="10dp"
-                    android:layout_weight="1"
-                    android:background="@null"
-                    android:text="Forgot Password ?"
-                    android:textAllCaps="false"
-                    android:textColor="@android:color/black"
-                    android:textSize="16sp" />
-
-                <Button
-                    android:id="@+id/btn_signup"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:layout_marginTop="10dp"
-                    android:layout_weight="1"
-                    android:background="@null"
-                    android:text="Sign Up"
-                    android:textAllCaps="false"
-                    android:textColor="@android:color/black"
-                    android:textSize="16sp" />
-            </LinearLayout>
-
-
-        </LinearLayout>
     </LinearLayout>
+
+
+    <com.shobhitpuri.custombuttons.GoogleSignInButton
+
+        android:id="@+id/btn_google"
+        android:layout_width="350dp"
+        android:layout_height="0dp"
+        android:layout_marginTop="24dp"
+        android:text="Sign in with google"
+        app:isDarkTheme="true"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout" />
+
+    <Button
+        android:id="@+id/btn_login"
+        android:layout_width="150dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
+        android:background="@drawable/et_bg"
+        android:text="@string/btn_login"
+        android:textColor="@android:color/white"
+        app:layout_constraintBottom_toTopOf="@+id/textView5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/btn_google"
+        app:layout_constraintVertical_bias="0.259" />
+
+    <Button
+        android:id="@+id/btn_reset_password"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:layout_marginTop="45dp"
+        android:layout_weight="1"
+        android:background="@null"
+        android:fontFamily="@font/light"
+
+        android:text="Forgot Password ?"
+        android:textAllCaps="false"
+
+        android:textColor="@color/orange"
+        android:textSize="18sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.603"
+        app:layout_constraintStart_toEndOf="@+id/btn_login"
+        app:layout_constraintTop_toBottomOf="@+id/btn_google" />
+
+    <Button
+        android:id="@+id/btn_signup"
+        android:layout_width="80dp"
+        android:layout_height="30dp"
+        android:layout_marginBottom="32dp"
+        android:layout_weight="1"
+        android:background="@null"
+        android:text="Sign Up"
+        android:textAllCaps="false"
+        android:textColor="@color/orange"
+        android:textSize="16sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toEndOf="@+id/textView5" />
+
+    <TextView
+        android:id="@+id/textView5"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginBottom="8dp"
+        android:fontFamily="@font/light"
+        android:text="You are not a member?"
+        android:textColor="@color/gray"
+        android:textSize="18sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/btn_google"
+        app:layout_constraintVertical_bias="0.9" />
+
 
 
     <!-- Link to Login Screen -->
@@ -133,4 +172,4 @@
     <!--        android:layout_gravity="center|bottom"-->
     <!--        android:layout_marginBottom="20dp"-->
     <!--        android:visibility="gone" />-->
-</androidx.coordinatorlayout.widget.CoordinatorLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

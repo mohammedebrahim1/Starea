@@ -1,6 +1,7 @@
 package com.example.geek.starea.Adapters;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,6 +12,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.geek.starea.DataStructuresActivity;
 import com.example.geek.starea.Models.ModelCourse;
 import com.example.geek.starea.R;
 import com.squareup.picasso.Picasso;
@@ -55,7 +57,12 @@ public class AdapterCourse extends RecyclerView.Adapter<AdapterCourse.myHolder> 
         holder.joinBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
                 // handle btn click
+                Intent intent = new Intent(context  , DataStructuresActivity.class);
+                context.startActivity(intent);
+
+
 
             }
         });

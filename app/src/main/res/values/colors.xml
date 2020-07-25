@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <color name="colorPrimary">#42577f</color>
-    <color name="colorPrimaryDark">#00574B</color>
+    <color name="colorPrimaryDark">#253a4b</color>
     <color name="colorAccent">#ff7315</color>
     <color name="card_bg_color">#FBFBFB</color>
     <color name="card_bg_dark_color">#0e0e0e</color>
@@ -13,4 +13,8 @@
     <color name="gray_line_color">#E7E7E7</color>
     <color name="overlay_dark_10">#1A000000</color>
     <color name="overlay_dark_20">#33000000</color>
+    <color name="gray">#253a4b</color>
+    <color name="orange">#e78119</color>
+    <color name="light_gray">#E8EBEC</color>
+
 </resources>

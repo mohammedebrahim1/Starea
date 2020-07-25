@@ -28,6 +28,7 @@
         <item name="boxCornerRadiusTopStart">30dp</item>
         <item name="boxStrokeColor">@color/colorAccent</item>
         <item name="android:textColorHint">@android:color/darker_gray</item>
+        <item name="backgroundColor">@color/content_text_color</item>
         <item name="boxStrokeWidth">2dp</item>
         <item name="errorEnabled">true</item>
     </style>

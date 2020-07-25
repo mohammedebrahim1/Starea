@@ -5,7 +5,6 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -29,10 +28,12 @@ import com.example.geek.starea.AddPostActivity;
 import com.example.geek.starea.Auth.LoginActivity;
 import com.example.geek.starea.Models.ModelPost;
 import com.example.geek.starea.PostDetailActivity;
+import com.example.geek.starea.QrActivity;
 import com.example.geek.starea.R;
 import com.example.geek.starea.ThereProfileActivity;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -61,6 +62,7 @@ public class HomeFragment extends Fragment implements AdapterPost.HomePostListen
     AdapterPost adapter = new AdapterPost();
     ArrayList<ModelPost> postList;
     ArrayList<String> ratedPosts;
+    FloatingActionButton qrBtn;
 
     boolean mProcessRate;
     FirebaseAuth firebaseAuth;
@@ -73,6 +75,7 @@ public class HomeFragment extends Fragment implements AdapterPost.HomePostListen
 
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_home, container, false);
+        qrBtn = view.findViewById(R.id.fab_home_post);
         // init firebase auth
         firebaseAuth = FirebaseAuth.getInstance();
         user = firebaseAuth.getCurrentUser();
@@ -98,6 +101,13 @@ public class HomeFragment extends Fragment implements AdapterPost.HomePostListen
                 //TODO Logic Here,, el data btsync lw7dha mn3'er refresh ,, msh m7tag el swipe
                 // bs hasebholk 3shan lw a7tagto ba3dyn
                 homeSwipe.setRefreshing(false);
+            }
+        });
+        qrBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getActivity() , QrActivity.class);
+                startActivity(intent);
             }
         });
         return view;
